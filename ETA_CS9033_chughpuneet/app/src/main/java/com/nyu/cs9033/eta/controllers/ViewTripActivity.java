@@ -3,25 +3,33 @@ package com.nyu.cs9033.eta.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
+import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
+
+import java.util.ArrayList;
 
 public class ViewTripActivity extends Activity {
 
 	private static final String TAG = "ViewTripActivity";
-
+	private ArrayList<TextView> displayPeople;
+	private TextView gettingTripName;
+	/*
 	private TextView firstPersonTextView;
 	private TextView secondPersonTextView;
 	private TextView thirdPersonTextView;
 	private TextView fourthPersonTextView;
 	private TextView fifthPersonTextView;
+	*/
 	private TextView dateTextView;
 	private TextView timeTextView;
 	private TextView locationTextView;
 	private TextView tripName;
+	private TextView peopleOnTheTrip;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,15 +37,22 @@ public class ViewTripActivity extends Activity {
 
 		// TODO - fill in here
 		setContentView(R.layout.view_trip);
+		displayPeople = new ArrayList<TextView>();
+		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.view_trip_id);
+		/*
 		firstPersonTextView = (TextView) findViewById(R.id.friend_one_id);
 		secondPersonTextView = (TextView) findViewById(R.id.friend_two_id);
 		thirdPersonTextView = (TextView) findViewById(R.id.friend_three_id);
 		fourthPersonTextView = (TextView) findViewById(R.id.friend_four_id);
 		fifthPersonTextView = (TextView) findViewById(R.id.friend_five_id);
+		*/
 		dateTextView = (TextView) findViewById(R.id.view_date_id);
 		timeTextView = (TextView) findViewById(R.id.view_time_id);
 		locationTextView = (TextView) findViewById(R.id.view_location_id);
-		tripName = (TextView) findViewById(R.id.trip_name_id);
+		gettingTripName = (TextView) findViewById(R.id.trip_name_id);
+		peopleOnTheTrip = (TextView) findViewById(R.id.people_on_trip_id);
+		tripName = (TextView) findViewById(R.id.trip_name);
+		peopleOnTheTrip = (TextView) findViewById(R.id.peoples_name);
 
 
 		//setContentView(R.layout.view_trip);
@@ -48,6 +63,11 @@ public class ViewTripActivity extends Activity {
 			Toast.makeText(this, "You cannot View the trip before creating one !", Toast.LENGTH_SHORT).show();
 			Intent newIntent = new Intent(this, MainActivity.class);
 			startActivity(newIntent);
+		}
+		for(int loopCounter = 0; loopCounter < trip.getNumberOfPerson(); loopCounter++){
+			displayPeople.add(new TextView(this));
+			displayPeople.get(loopCounter).setId(loopCounter);
+			linearLayout.addView(displayPeople.get(loopCounter));
 		}
 		viewTrip(trip);
 	}
@@ -76,14 +96,24 @@ public class ViewTripActivity extends Activity {
 		String location = trip.getLocation();
 		String date = trip.getDate();
 		String time = trip.getTime();
+		/*
 		String firstName = trip.getFirstPerson();
 		String secondName = trip.getSecondPerson();
 		String thirdName = trip.getThirdPerson();
 		String fourthName = trip.getFourthPerson();
 		String fifthName = trip.getFifthPerson();
+		*/
 		String tripName = trip.getTripName();
+		int numberOfPeople = trip.getNumberOfPerson();
+		ArrayList<String> peopleString = trip.getNames();
 
-		trip = new Trip(location,date,time,firstName,secondName,thirdName,fourthName,fifthName,tripName);
+
+		ArrayList<Person> people = new ArrayList<Person>();
+		for(int loopCounter = 0; loopCounter < numberOfPeople; loopCounter++){
+			people.add(new Person(peopleString.get(loopCounter)));
+		}
+
+		trip = new Trip(location,date,time,tripName, people);
 		return trip;
 	}
 
@@ -96,7 +126,7 @@ public class ViewTripActivity extends Activity {
 	public void viewTrip(Trip trip) {
 		
 		// TODO - fill in here
-
+		/*
 		if(trip.getFirstPerson() !=null){
 			firstPersonTextView.setText(trip.getFirstPerson());
 		}
@@ -117,7 +147,17 @@ public class ViewTripActivity extends Activity {
 			fifthPersonTextView.setText(trip.getFifthPerson());
 
 		}
+		*/
 
+		ArrayList<String> people = trip.getNames();
+		int loopCounter = 0;
+		StringBuilder peopleStringBuilder = new StringBuilder();
+		for(String individual: people){
+			peopleStringBuilder.append(individual);
+			peopleStringBuilder.append("; ");
+		}
+		String peopleString = peopleStringBuilder.toString();
+		peopleOnTheTrip.setText(peopleString);
 		if(trip.getLocation() != null){
 			if(trip.getLocation() ==""){
 				locationTextView.setText("Not Mentioned");
@@ -154,10 +194,10 @@ public class ViewTripActivity extends Activity {
 
 		if(trip.getTripName() != null){
 			if(trip.getTripName() == ""){
-				tripName.setText("Not mentioned");
+				gettingTripName.setText("Not mentioned");
 			}
 			else {
-				tripName.setText(trip.getTripName());
+				gettingTripName.setText(trip.getTripName());
 			}
 		}
 	}

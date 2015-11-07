@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
+
+import java.util.ArrayList;
 
 public class CreateTripActivity extends Activity {
 	
@@ -18,12 +20,17 @@ public class CreateTripActivity extends Activity {
 	private static final String MAIN_TAG = "MainActivity";
 	private static final String TRIP_DATA = "TripData";
 	private static final int RESULT_CODE = 2;
+	private int numberOfPeople;
+	ArrayList<Person> people;
 	private Intent intent;
+	/*
 	private CheckBox puneet;
 	private CheckBox hannah;
 	private CheckBox pranay;
 	private CheckBox chenxi;
 	private CheckBox sheryar;
+	*/
+	private EditText forAddingPeople;
 	private EditText tripDate;
 	private EditText tripTime;
 	private EditText tripLocation;
@@ -31,7 +38,7 @@ public class CreateTripActivity extends Activity {
 	private Button cancelButton;
 	private EditText tripName;
 
-	Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
+	//Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
 	//private Object View;
 
 	@Override
@@ -40,14 +47,16 @@ public class CreateTripActivity extends Activity {
 
 		// TODO - fill in here
 		setContentView(R.layout.create_trip);
-
+		people = new ArrayList<Person>();
 		tripName = (EditText)findViewById(R.id.type_name_id);
+		forAddingPeople = (EditText)findViewById(R.id.add_name_id);
+		/*
 		puneet = (CheckBox) findViewById(R.id.puneet_id);
 		hannah = (CheckBox) findViewById(R.id.hannah_id);
 		pranay = (CheckBox) findViewById(R.id.pranay_id);
 		chenxi = (CheckBox) findViewById(R.id.chenxi_id);
 		sheryar = (CheckBox) findViewById(R.id.sheryar_id);
-
+		*/
 		tripDate = (EditText) findViewById(R.id.date_id);
 		tripTime = (EditText) findViewById(R.id.time_id);
 		tripLocation = (EditText) findViewById(R.id.location_id);
@@ -87,6 +96,9 @@ public class CreateTripActivity extends Activity {
 		String date = tripDate.getText().toString();
 		String time = tripTime.getText().toString();
 		String name = tripName.getText().toString();
+
+
+		/*
 		if(puneet.isChecked()){
 			personPuneet = new Person("Puneet");
 		}
@@ -121,11 +133,13 @@ public class CreateTripActivity extends Activity {
 		else{
 			personSheryar = new Person("");
 		}
+		*/
+		if (forAddingPeople.getText() != null){
+			people.add(new Person(forAddingPeople.getText().toString()));
+		}
 
 
-
-
-		Trip trip = new Trip(location,date,time,personPuneet.getName(),personHannah.getName(),personPranay.getName(),personChenxi.getName(),personSheryar.getName(),name );
+		Trip trip = new Trip(location,date,time,name,people);
 		return trip;
 		//return null;
 	}
@@ -146,6 +160,7 @@ public class CreateTripActivity extends Activity {
 	
 		// TODO - fill in here
 
+
 		Intent intent = new Intent(CreateTripActivity.this, MainActivity.class);
 		//Bundle newBundle = new Bundle();
 		//newBundle.putParcelable(TRIP_DATA,trip);
@@ -158,6 +173,17 @@ public class CreateTripActivity extends Activity {
 		//return false;
 	}
 
+	public void addPerson(View view) {
+		if (forAddingPeople.getText() == null || (forAddingPeople.getText().toString().equals("")) ){
+			Toast.makeText(getApplicationContext(), "You did not enter any name",
+					Toast.LENGTH_LONG).show();
+		} else {
+			people.add(new Person(forAddingPeople.getText().toString()));
+			forAddingPeople.setText(null);
+			forAddingPeople.setHint("Type Name");
+			forAddingPeople.setHintTextColor(getResources().getColor(R.color.white));
+		}
+	}
 	/**
 	 * This method should be used when a
 	 * user wants to cancel the creation of

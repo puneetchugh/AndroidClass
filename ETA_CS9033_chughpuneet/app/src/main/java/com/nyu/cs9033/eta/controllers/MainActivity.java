@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
+import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -91,13 +94,22 @@ public class MainActivity extends Activity {
 					String location = trip.getLocation();
 					String date = trip.getDate();
 					String time = trip.getTime();
+
+					/*
 					String firstName = trip.getFirstPerson();
 					String secondName = trip.getSecondPerson();
 					String thirdName = trip.getThirdPerson();
 					String fourthName = trip.getFourthPerson();
 					String fifthName = trip.getFifthPerson();
+					*/
 					String tripName = trip.getTripName();
-					trip = new Trip(location,date,time,firstName,secondName,thirdName,fourthName,fifthName,tripName);
+
+					ArrayList<String> peopleString  =trip.getNames();
+					ArrayList<Person> people = new ArrayList<Person>();
+					for(int loopCounter = 0; loopCounter < trip.getNumberOfPerson(); loopCounter++){
+						people.add(new Person(peopleString.get(loopCounter)));
+					}
+					trip = new Trip(location,date,time,tripName, people);
 
 					//trip = new Trip(parcel);
 				//trip = (Trip)getIntent().getExtras("TripData");

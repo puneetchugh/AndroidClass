@@ -15,7 +15,9 @@
     <string name="view_time_id">Time</string>
     <string name="view_location_id">Trip Location</string>
     <string name="your_trip_name_id">Trip Name</string>
+    <string name="type_name">Type Name</string>
 
+    <string name="add_more">Add More</string>
     <string name="view_trip">View Trip</string>
     <string name="trip_date">Trip Date</string>
     <string name="trip_time">Trip Time</string>

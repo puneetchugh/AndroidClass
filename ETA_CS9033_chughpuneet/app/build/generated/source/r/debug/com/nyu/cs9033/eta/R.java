@@ -39,13 +39,13 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f0a000f;
-        public static final int add_name_id=0x7f0a0001;
         public static final int cancel_button_id=0x7f0a0006;
         public static final int create_button_id=0x7f0a0005;
         public static final int date_id=0x7f0a0003;
         public static final int location_id=0x7f0a0002;
         public static final int people_on_trip_id=0x7f0a000a;
         public static final int peoples_name=0x7f0a000b;
+        public static final int print_added_name_id=0x7f0a0001;
         public static final int time_id=0x7f0a0004;
         public static final int trip_name=0x7f0a0008;
         public static final int trip_name_id=0x7f0a0009;

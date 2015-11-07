@@ -28,43 +28,26 @@
         android:hint="@string/type_name"
         android:textColorHint="@color/white"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/include_people"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="@color/maroon"
-        android:background="@color/gray"
-        />
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_horizontal_margin">
-    <EditText
-        android:id="@+id/add_name_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/type_name"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"/>
+
 
     <Button
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/add_more"
         android:textColor="@color/maroon"
-        android:textSize="24sp"
         android:textStyle="bold"
         android:background="@color/darkgray"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:onClick="addPerson"/>
-    </LinearLayout>
+
+    <TextView
+        android:id="@+id/print_added_name_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:layout_height="wrap_content"

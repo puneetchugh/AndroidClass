@@ -1,12 +1,17 @@
 package com.nyu.cs9033.eta.controllers;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
@@ -37,6 +42,7 @@ public class CreateTripActivity extends Activity {
 	private Button createButton;
 	private Button cancelButton;
 	private EditText tripName;
+	private TextView printAddedPerson;
 
 	//Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
 	//private Object View;
@@ -49,7 +55,7 @@ public class CreateTripActivity extends Activity {
 		setContentView(R.layout.create_trip);
 		people = new ArrayList<Person>();
 		tripName = (EditText)findViewById(R.id.type_name_id);
-		forAddingPeople = (EditText)findViewById(R.id.add_name_id);
+		//forAddingPeople = (EditText)findViewById(R.id.add_name_id);
 		/*
 		puneet = (CheckBox) findViewById(R.id.puneet_id);
 		hannah = (CheckBox) findViewById(R.id.hannah_id);
@@ -62,6 +68,7 @@ public class CreateTripActivity extends Activity {
 		tripLocation = (EditText) findViewById(R.id.location_id);
 		tripName = (EditText) findViewById(R.id.type_name_id);
 		createButton = (Button) findViewById(R.id.create_button_id);
+		printAddedPerson = (TextView) findViewById(R.id.print_added_name_id);
 		createButton.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
@@ -134,9 +141,10 @@ public class CreateTripActivity extends Activity {
 			personSheryar = new Person("");
 		}
 		*/
+		/*
 		if (forAddingPeople.getText() != null){
 			people.add(new Person(forAddingPeople.getText().toString()));
-		}
+		}*/
 
 
 		Trip trip = new Trip(location,date,time,name,people);
@@ -174,7 +182,7 @@ public class CreateTripActivity extends Activity {
 	}
 
 	public void addPerson(View view) {
-		if (forAddingPeople.getText() == null || (forAddingPeople.getText().toString().equals("")) ){
+		/*if (forAddingPeople.getText() == null || (forAddingPeople.getText().toString().equals("")) ){
 			Toast.makeText(getApplicationContext(), "You did not enter any name",
 					Toast.LENGTH_LONG).show();
 		} else {
@@ -182,6 +190,13 @@ public class CreateTripActivity extends Activity {
 			forAddingPeople.setText(null);
 			forAddingPeople.setHint("Type Name");
 			forAddingPeople.setHintTextColor(getResources().getColor(R.color.white));
+		}*/
+		try {
+			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+			startActivityForResult(intent, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("Error in intent : ", e.toString());
 		}
 	}
 	/**
@@ -202,5 +217,49 @@ public class CreateTripActivity extends Activity {
 		// TODO - fill in here
 	}
 
+	@Override
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+		super.onActivityResult(reqCode, resultCode, data);
+
+		try {
+			if (resultCode == Activity.RESULT_OK) {
+				Uri contactData = data.getData();
+				Cursor cur = managedQuery(contactData, null, null, null, null);
+				ContentResolver contect_resolver = getContentResolver();
+
+				if (cur.moveToFirst()) {
+					String id = cur.getString(cur.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+					String name = "";
+					String no = "";
+
+					Cursor phoneCur = contect_resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+
+					if (phoneCur.moveToFirst()) {
+						name = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+						no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+						people.add(new Person(name));
+					}
+
+					Log.e("Phone no & name :***: ", name + " : " + no);
+					printAddedPerson.setText("Added " +name + " : " + no + "\n");
+
+					id = null;
+					name = null;
+					no = null;
+					phoneCur = null;
+				}
+				contect_resolver = null;
+				cur = null;
+				//                      populateContacts();
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			Log.e("IllegalArgumentExcp", e.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("Error :: ", e.toString());
+		}
+	}
 
 }

@@ -17,10 +17,12 @@ import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CreateTripActivity extends Activity {
-	
+
+	private static int tripCount = 0;
 	private static final String TAG = "CreateTripActivity";
 	private static final String MAIN_TAG = "MainActivity";
 	private static final String TRIP_DATA = "TripData";
@@ -46,6 +48,7 @@ public class CreateTripActivity extends Activity {
 	private TextView printAddedPerson;
 	private String location = new String();
 
+	private TablesDataSource tablesDataSource;
 	//Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
 	//private Object View;
 
@@ -55,6 +58,13 @@ public class CreateTripActivity extends Activity {
 
 		// TODO - fill in here
 		setContentView(R.layout.create_trip);
+		tablesDataSource = new TablesDataSource(this);
+		try {
+			tablesDataSource.open();
+		}
+		catch (SQLException sqlException){
+			sqlException.printStackTrace();
+		}
 		people = new ArrayList<Person>();
 		tripName = (EditText)findViewById(R.id.type_name_id);
 		//forAddingPeople = (EditText)findViewById(R.id.add_name_id);
@@ -149,8 +159,8 @@ public class CreateTripActivity extends Activity {
 			people.add(new Person(forAddingPeople.getText().toString()));
 		}*/
 
-
-		Trip trip = new Trip(location,date,time,name,people);
+		Trip trip = tablesDataSource.createTrip(tripCount++, location, date, time, name, people);
+		//Trip trip = new Trip(tripCount,location,date,time,name,people);
 		return trip;
 		//return null;
 	}
@@ -176,7 +186,7 @@ public class CreateTripActivity extends Activity {
 		//Bundle newBundle = new Bundle();
 		//newBundle.putParcelable(TRIP_DATA,trip);
 		//intent.putExtras(newBundle);
-		intent.putExtra(TRIP_DATA,trip);
+		//intent.putExtra(TRIP_DATA,trip);
 		setResult(RESULT_CODE, intent);
 		finish();
 
@@ -242,7 +252,7 @@ public class CreateTripActivity extends Activity {
 						if (phoneCur.moveToFirst()) {
 							name = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 							no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							people.add(new Person(name));
+							people.add(new Person(tripCount, name));
 						}
 
 						Log.e("Phone no & name :***: ", name + " : " + no);

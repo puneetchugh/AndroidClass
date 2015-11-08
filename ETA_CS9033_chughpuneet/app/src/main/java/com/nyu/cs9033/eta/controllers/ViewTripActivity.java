@@ -11,10 +11,12 @@ import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ViewTripActivity extends Activity {
 
+	private TablesDataSource tablesDataSource;
 	private static final String TAG = "ViewTripActivity";
 	private ArrayList<TextView> displayPeople;
 	private TextView gettingTripName;
@@ -38,6 +40,12 @@ public class ViewTripActivity extends Activity {
 		// TODO - fill in here
 		setContentView(R.layout.view_trip);
 		displayPeople = new ArrayList<TextView>();
+		try {
+			tablesDataSource.open();
+		}catch (SQLException sqlException ){
+			sqlException.printStackTrace();
+		}
+
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.view_trip_id);
 		/*
 		firstPersonTextView = (TextView) findViewById(R.id.friend_one_id);
@@ -110,10 +118,10 @@ public class ViewTripActivity extends Activity {
 
 		ArrayList<Person> people = new ArrayList<Person>();
 		for(int loopCounter = 0; loopCounter < numberOfPeople; loopCounter++){
-			people.add(new Person(peopleString.get(loopCounter)));
+			people.add(new Person(peopleString.get(tripId, loopCounter)));
 		}
 
-		trip = new Trip(location,date,time,tripName, people);
+		trip = new Trip(tripId, location,date,time,tripName, people);
 		return trip;
 	}
 

@@ -8,10 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
-import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
-
-import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -85,16 +82,19 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO - fill in here
 		Bundle newBundle = new Bundle();
-		if (resultCode == 2) {
-			if (data != null) {
+		if (requestCode == 1) {
 
+			Toast.makeText(this, "Successfully returned from the activity", Toast.LENGTH_SHORT).show();
+
+			//if (data != null) {
+				/*
 				newBundle = data.getExtras();
 				if(newBundle != null){
 					trip = (Trip)newBundle.getParcelable("TripData");
 					String location = trip.getLocation();
 					String date = trip.getDate();
 					String time = trip.getTime();
-
+					*/
 					/*
 					String firstName = trip.getFirstPerson();
 					String secondName = trip.getSecondPerson();
@@ -102,6 +102,7 @@ public class MainActivity extends Activity {
 					String fourthName = trip.getFourthPerson();
 					String fifthName = trip.getFifthPerson();
 					*/
+					/*
 					String tripName = trip.getTripName();
 
 					ArrayList<String> peopleString  =trip.getNames();
@@ -110,14 +111,15 @@ public class MainActivity extends Activity {
 						people.add(new Person(peopleString.get(loopCounter)));
 					}
 					trip = new Trip(location,date,time,tripName, people);
+					*/
 
 					//trip = new Trip(parcel);
 				//trip = (Trip)getIntent().getExtras("TripData");
 
 
 
-				}
-			}
+				//}
+			//}
 		}
 	}
 }

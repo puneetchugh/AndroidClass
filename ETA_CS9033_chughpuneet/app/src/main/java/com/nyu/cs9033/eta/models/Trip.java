@@ -10,6 +10,8 @@ public class Trip implements Parcelable {
 	// Member fields should exist here, what else do you need for a trip?
 	// Please add additional fields
 
+	//private static int static_count = 0;
+	private int id;
 	private String location;
 	private String time;
 	private String date;
@@ -50,7 +52,7 @@ public class Trip implements Parcelable {
 		// TODO - fill in here
 		//String[] data = new String[8];
 		//p.readStringArray(data);
-
+		this.id = p.readInt();
 		this.location = p.readString();
 		this.date = p.readString();
 		this.time = p.readString();
@@ -66,7 +68,7 @@ public class Trip implements Parcelable {
 
 		this.numberOfPerson = Integer.parseInt(p.readString());
 		for(int loopCounter = 0; loopCounter < numberOfPerson; loopCounter++){
-			this.manyPerson.add(new Person(p.readString()));
+			this.manyPerson.add(new Person(id, p.readString()));
 		}
 
 	}
@@ -79,11 +81,12 @@ public class Trip implements Parcelable {
 	 *
 	 * @param
 	 */
-	public Trip(String location, String date, String time, String tripName, ArrayList<Person> manyPerson) {
+	public Trip(int id, String location, String date, String time, String tripName, ArrayList<Person> manyPerson) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 
-
+		//this.id = static_count++;
+		this.id = id;
 		this.location = location;
 		this.date = date;
 		this.time = time;
@@ -103,7 +106,7 @@ public class Trip implements Parcelable {
 			*/
 		int loopCounter = 0;
 		for(Person newPerson: manyPerson){
-			this.manyPerson.add(new Person(newPerson.getName()));
+			this.manyPerson.add(new Person(id, newPerson.getName()));
 
 		}
 
@@ -130,7 +133,7 @@ public class Trip implements Parcelable {
 		
 		// TODO - fill in here
 //		dest.writeStringArray(new String[] {
-
+		dest.writeInt(this.id);
 		dest.writeString(this.location);
 		dest.writeString(this.date);
 		dest.writeString(this.time);
@@ -156,16 +159,36 @@ public class Trip implements Parcelable {
 	 * Feel free to add additional functions as necessary below.
 	 */
 
+	public int getId(){
+		return id;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
 	public String getLocation(){
 		return location;
+	}
+
+	public void setLocation(String location){
+		this.location = location;
 	}
 
 	public String getTime(){
 		return time;
 	}
 
+	public void setTime(String time){
+		this.time = time;
+	}
+
 	public String getDate(){
 		return date;
+	}
+
+	public void setDate(String date){
+		this.date = date;
 	}
 
 	/*

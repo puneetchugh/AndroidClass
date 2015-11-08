@@ -38,22 +38,25 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a000f;
-        public static final int cancel_button_id=0x7f0a0006;
-        public static final int create_button_id=0x7f0a0005;
-        public static final int date_id=0x7f0a0003;
-        public static final int location_id=0x7f0a0002;
-        public static final int people_on_trip_id=0x7f0a000a;
-        public static final int peoples_name=0x7f0a000b;
+        public static final int action_settings=0x7f0a0012;
+        public static final int cancel_button_id=0x7f0a0009;
+        public static final int create_button_id=0x7f0a0008;
+        public static final int date_id=0x7f0a0006;
+        public static final int enter_loc_id=0x7f0a0002;
+        public static final int enter_rest_type=0x7f0a0004;
+        public static final int location_id=0x7f0a0003;
+        public static final int people_on_trip_id=0x7f0a000d;
+        public static final int peoples_name=0x7f0a000e;
         public static final int print_added_name_id=0x7f0a0001;
-        public static final int time_id=0x7f0a0004;
-        public static final int trip_name=0x7f0a0008;
-        public static final int trip_name_id=0x7f0a0009;
+        public static final int time_id=0x7f0a0007;
+        public static final int trip_name=0x7f0a000b;
+        public static final int trip_name_id=0x7f0a000c;
         public static final int type_name_id=0x7f0a0000;
-        public static final int view_date_id=0x7f0a000d;
-        public static final int view_location_id=0x7f0a000c;
-        public static final int view_time_id=0x7f0a000e;
-        public static final int view_trip_id=0x7f0a0007;
+        public static final int type_res_type=0x7f0a0005;
+        public static final int view_date_id=0x7f0a0010;
+        public static final int view_location_id=0x7f0a000f;
+        public static final int view_time_id=0x7f0a0011;
+        public static final int view_trip_id=0x7f0a000a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -62,6 +65,7 @@ public final class R {
     }
     public static final class menu {
         public static final int main=0x7f090000;
+        public static final int menu_search_eating_outlets=0x7f090001;
     }
     public static final class string {
         public static final int action_settings=0x7f080000;
@@ -71,27 +75,34 @@ public final class R {
         public static final int chenxi=0x7f080004;
         public static final int create=0x7f080005;
         public static final int create_trip=0x7f080006;
-        public static final int hannah=0x7f080007;
-        public static final int hello_world=0x7f080008;
-        public static final int include_people=0x7f080009;
-        public static final int people_on_trip=0x7f08000a;
-        public static final int pranay=0x7f08000b;
-        public static final int puneet=0x7f08000c;
-        public static final int sheryar=0x7f08000d;
-        public static final int trip_date=0x7f08000e;
-        public static final int trip_location=0x7f08000f;
-        public static final int trip_name_id=0x7f080010;
-        public static final int trip_time=0x7f080011;
-        public static final int type_date=0x7f080012;
-        public static final int type_location=0x7f080013;
-        public static final int type_name=0x7f080014;
-        public static final int type_name_id=0x7f080015;
-        public static final int type_time=0x7f080016;
-        public static final int view_date_id=0x7f080017;
-        public static final int view_location_id=0x7f080018;
-        public static final int view_time_id=0x7f080019;
-        public static final int view_trip=0x7f08001a;
-        public static final int your_trip_name_id=0x7f08001b;
+        public static final int enter_area=0x7f080007;
+        public static final int enter_rest_type=0x7f080008;
+        public static final int hannah=0x7f080009;
+        public static final int hello_world=0x7f08000a;
+        public static final int include_people=0x7f08000b;
+        public static final int like_chinese=0x7f08000c;
+        public static final int like_nyu_poly=0x7f08000d;
+        public static final int people_on_trip=0x7f08000e;
+        public static final int pranay=0x7f08000f;
+        public static final int puneet=0x7f080010;
+        public static final int search_rest=0x7f080011;
+        public static final int sheryar=0x7f080012;
+        public static final int title_activity_search_eating_outlets=0x7f080013;
+        public static final int trip_date=0x7f080014;
+        public static final int trip_location=0x7f080015;
+        public static final int trip_name_id=0x7f080016;
+        public static final int trip_time=0x7f080017;
+        public static final int type_date=0x7f080018;
+        public static final int type_location=0x7f080019;
+        public static final int type_name=0x7f08001a;
+        public static final int type_name_id=0x7f08001b;
+        public static final int type_rest_cat=0x7f08001c;
+        public static final int type_time=0x7f08001d;
+        public static final int view_date_id=0x7f08001e;
+        public static final int view_location_id=0x7f08001f;
+        public static final int view_time_id=0x7f080020;
+        public static final int view_trip=0x7f080021;
+        public static final int your_trip_name_id=0x7f080022;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 

@@ -160,6 +160,7 @@ public class ViewTripActivity extends Activity {
 		peopleOnTheTrip.setText(peopleString);
 		if(trip.getLocation() != null){
 			if(trip.getLocation() ==""){
+
 				locationTextView.setText("Not Mentioned");
 			}
 			else {

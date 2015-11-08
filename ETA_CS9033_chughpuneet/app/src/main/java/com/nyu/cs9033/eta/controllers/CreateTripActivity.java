@@ -39,10 +39,12 @@ public class CreateTripActivity extends Activity {
 	private EditText tripDate;
 	private EditText tripTime;
 	private EditText tripLocation;
+	private EditText restaurantType;
 	private Button createButton;
 	private Button cancelButton;
 	private EditText tripName;
 	private TextView printAddedPerson;
+	private String location = new String();
 
 	//Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
 	//private Object View;
@@ -66,6 +68,7 @@ public class CreateTripActivity extends Activity {
 		tripDate = (EditText) findViewById(R.id.date_id);
 		tripTime = (EditText) findViewById(R.id.time_id);
 		tripLocation = (EditText) findViewById(R.id.location_id);
+		restaurantType = (EditText) findViewById(R.id.type_res_type);
 		tripName = (EditText) findViewById(R.id.type_name_id);
 		createButton = (Button) findViewById(R.id.create_button_id);
 		printAddedPerson = (TextView) findViewById(R.id.print_added_name_id);
@@ -99,7 +102,7 @@ public class CreateTripActivity extends Activity {
 
 		// TODO - fill in here
 
-		String location = tripLocation.getText().toString();
+		//String location = tripLocation.getText().toString();
 		String date = tripDate.getText().toString();
 		String time = tripTime.getText().toString();
 		String name = tripName.getText().toString();
@@ -193,7 +196,7 @@ public class CreateTripActivity extends Activity {
 		}*/
 		try {
 			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-			startActivityForResult(intent, 1);
+			startActivityForResult(intent, 5);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e("Error in intent : ", e.toString());
@@ -221,45 +224,69 @@ public class CreateTripActivity extends Activity {
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
 
-		try {
-			if (resultCode == Activity.RESULT_OK) {
-				Uri contactData = data.getData();
-				Cursor cur = managedQuery(contactData, null, null, null, null);
-				ContentResolver contect_resolver = getContentResolver();
+		if(reqCode == 5) {
+			try {
+				if (resultCode == Activity.RESULT_OK) {
+					Uri contactData = data.getData();
+					Cursor cur = managedQuery(contactData, null, null, null, null);
+					ContentResolver contect_resolver = getContentResolver();
 
-				if (cur.moveToFirst()) {
-					String id = cur.getString(cur.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-					String name = "";
-					String no = "";
+					if (cur.moveToFirst()) {
+						String id = cur.getString(cur.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+						String name = "";
+						String no = "";
 
-					Cursor phoneCur = contect_resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+						Cursor phoneCur = contect_resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+								ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
-					if (phoneCur.moveToFirst()) {
-						name = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-						no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-						people.add(new Person(name));
+						if (phoneCur.moveToFirst()) {
+							name = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+							no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+							people.add(new Person(name));
+						}
+
+						Log.e("Phone no & name :***: ", name + " : " + no);
+						printAddedPerson.setText("Added " + name + " : " + no + "\n");
+
+						id = null;
+						name = null;
+						no = null;
+						phoneCur = null;
 					}
-
-					Log.e("Phone no & name :***: ", name + " : " + no);
-					printAddedPerson.setText("Added " +name + " : " + no + "\n");
-
-					id = null;
-					name = null;
-					no = null;
-					phoneCur = null;
+					contect_resolver = null;
+					cur = null;
+					//                      populateContacts();
 				}
-				contect_resolver = null;
-				cur = null;
-				//                      populateContacts();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				Log.e("IllegalArgumentExcp", e.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.e("Error :: ", e.toString());
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			Log.e("IllegalArgumentExcp", e.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e("Error :: ", e.toString());
 		}
+
+		else if(reqCode == 1){
+			Intent fourSquareReturn = data;
+			ArrayList<String> dataFromFourSquare = fourSquareReturn.getStringArrayListExtra("retVal");
+			String latitude = dataFromFourSquare.get(2);
+			String longitude = dataFromFourSquare.get(3);
+			location = dataFromFourSquare.get(0)+" "+dataFromFourSquare.get(1) ;
+		}
+	}
+
+	public void searchRestaurant(View view){
+
+		String tripLocationString = tripLocation.getText().toString();
+		String enterRestaurantString = restaurantType.getText().toString();
+
+		String toBeSent = tripLocationString+"::"+enterRestaurantString;
+
+		Intent fourSquareApi = new Intent(Intent.ACTION_VIEW);
+		fourSquareApi.setData(Uri.parse("location://com.example.nyu.hw3api"));
+		fourSquareApi.putExtra("searchVal", toBeSent);
+		startActivityForResult(fourSquareApi, 1);
+
 	}
 
 }

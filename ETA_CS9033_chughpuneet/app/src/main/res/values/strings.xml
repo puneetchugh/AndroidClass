@@ -17,7 +17,13 @@
     <string name="your_trip_name_id">Trip Name</string>
     <string name="type_name">Type Name</string>
 
+    <string name="like_nyu_poly">Like: nyu poly, etc</string>
+    <string name="like_chinese">Like:Chinese</string>
     <string name="add_more">Click to Add People from contact-book</string>
+    <string name="type_rest_cat">Type Restaurant Category</string>
+    <string name="enter_area">Enter Location</string>
+    <string name="enter_rest_type">Enter Rest. Type</string>
+    <string name="search_rest">Click To Search Restaurant</string>
     <string name="view_trip">View Trip</string>
     <string name="trip_date">Trip Date</string>
     <string name="trip_time">Trip Time</string>
@@ -30,5 +36,6 @@
     <string name="pranay">Pranay</string>
     <string name="chenxi">Chenxi</string>
     <string name="sheryar">Sheryar</string>
+    <string name="title_activity_search_eating_outlets">SearchEatingOutlets</string>
 
 </resources>

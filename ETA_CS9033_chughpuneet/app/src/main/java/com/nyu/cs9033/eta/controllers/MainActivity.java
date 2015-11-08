@@ -53,16 +53,17 @@ public class MainActivity extends Activity {
 	public void startViewTripActivity(View view) {
 
 		// TODO - fill in here
+		/*
 		if(trip == null){
 			Toast.makeText(this, "You cannot View the trip before creating one !", Toast.LENGTH_SHORT).show();
-		}
-		else {
-			Bundle newBundle = new Bundle();
+		}*/
+		//else {
+			//Bundle newBundle = new Bundle();
 			viewTripIntent = new Intent(this, ViewTripActivity.class);
-			newBundle.putParcelable("TRIP", trip);
-			viewTripIntent.putExtras(newBundle);
+			//newBundle.putParcelable("TRIP", trip);
+			//viewTripIntent.putExtras(newBundle);
 			startActivity(viewTripIntent);
-		}
+		//}
 	}
 
 	/**

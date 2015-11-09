@@ -23,11 +23,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + TABLE_TRIPS + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_TRIP_LOC
-            + " text not null," + COLUMN_TRIP_DATE +"text not null," + COLUMN_TRIP_TIME +"text not null),"+COLUMN_TRIP_NAME+"text not null);";
+            + " text not null," + COLUMN_TRIP_DATE +" text not null," + COLUMN_TRIP_TIME +" text not null,"+COLUMN_TRIP_NAME+" text not null);";
 
-    private static final String DATABASE_PEOPLE_CREATE = "create table"
+    private static final String DATABASE_PEOPLE_CREATE = "create table "
             + TABLE_PEOPLE + "(" + COLUMN_ID
-            + "integer primary key," + COLUMN_PERSON_NAME+"text not null);";
+            + " integer ," + COLUMN_PERSON_NAME+" text primary key not null);";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

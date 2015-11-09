@@ -3,16 +3,15 @@ package com.nyu.cs9033.eta.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
-import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewTripActivity extends Activity {
 
@@ -46,7 +45,7 @@ public class ViewTripActivity extends Activity {
 			sqlException.printStackTrace();
 		}
 
-		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.view_trip_id);
+		//LinearLayout linearLayout = (LinearLayout) findViewById(R.id.view_trip_id);
 		/*
 		firstPersonTextView = (TextView) findViewById(R.id.friend_one_id);
 		secondPersonTextView = (TextView) findViewById(R.id.friend_two_id);
@@ -66,18 +65,21 @@ public class ViewTripActivity extends Activity {
 		//setContentView(R.layout.view_trip);
 
 		Intent tripIntent = getIntent();
-		Trip trip = getTrip(tripIntent, savedInstanceState);
-		if(trip == null){
+
+		//Trip trip = getTrip(tripIntent, savedInstanceState);
+		List<Trip> trips = tablesDataSource.getAllTrips();
+		if(trips == null){
 			Toast.makeText(this, "You cannot View the trip before creating one !", Toast.LENGTH_SHORT).show();
 			Intent newIntent = new Intent(this, MainActivity.class);
 			startActivity(newIntent);
 		}
+		/*
 		for(int loopCounter = 0; loopCounter < trip.getNumberOfPerson(); loopCounter++){
 			displayPeople.add(new TextView(this));
 			displayPeople.get(loopCounter).setId(loopCounter);
 			linearLayout.addView(displayPeople.get(loopCounter));
-		}
-		viewTrip(trip);
+		}*/
+		viewTrip(trips.get(0));
 	}
 	
 	/**
@@ -91,19 +93,21 @@ public class ViewTripActivity extends Activity {
 	 * passed to TripViewer, or null if there
 	 * is none.
 	 */
+	/*
 	public Trip getTrip(Intent i, Bundle newBundle) {
 		
 		// TODO - fill in here
 		//Bundle newBundle = new Bundle();
-		newBundle = i.getExtras();
-		if(newBundle == null){
-			return null;
-		}
+		//newBundle = i.getExtras();
+		//if(newBundle == null){
+		//	return null;
+		//}
 		Trip trip = (Trip)newBundle.getParcelable("TRIP");
 
+		int tripId = trip.getId();
 		String location = trip.getLocation();
 		String date = trip.getDate();
-		String time = trip.getTime();
+		String time = trip.getTime();*/
 		/*
 		String firstName = trip.getFirstPerson();
 		String secondName = trip.getSecondPerson();
@@ -111,6 +115,7 @@ public class ViewTripActivity extends Activity {
 		String fourthName = trip.getFourthPerson();
 		String fifthName = trip.getFifthPerson();
 		*/
+			/*
 		String tripName = trip.getTripName();
 		int numberOfPeople = trip.getNumberOfPerson();
 		ArrayList<String> peopleString = trip.getNames();
@@ -118,12 +123,13 @@ public class ViewTripActivity extends Activity {
 
 		ArrayList<Person> people = new ArrayList<Person>();
 		for(int loopCounter = 0; loopCounter < numberOfPeople; loopCounter++){
-			people.add(new Person(peopleString.get(tripId, loopCounter)));
+			people.add(new Person(peopleString.get(loopCounter)));
 		}
 
 		trip = new Trip(tripId, location,date,time,tripName, people);
 		return trip;
-	}
+	}*/
+
 
 	/**
 	 * Populate the View using a Trip model.

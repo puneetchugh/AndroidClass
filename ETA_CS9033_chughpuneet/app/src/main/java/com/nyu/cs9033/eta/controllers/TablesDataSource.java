@@ -56,7 +56,7 @@ public class TablesDataSource {
         ContentValues values2 = new ContentValues();
         values2.put(MySQLiteHelper.COLUMN_ID, id);
         for (Person newPerson : people) {
-
+            values2.put(MySQLiteHelper.COLUMN_ID, id);
             values2.put(MySQLiteHelper.COLUMN_PERSON_NAME, newPerson.getName());
             database.insert(MySQLiteHelper.TABLE_PEOPLE, null, values2);
 
@@ -67,6 +67,15 @@ public class TablesDataSource {
                 allColumnsPeopleTable, MySQLiteHelper.COLUMN_ID + "=" + id, null,
                 null, null, null);
         cursor2.moveToFirst();
+/*
+        ArrayList<String> peopleInTheTrip = new ArrayList<String>();
+        int tripId = 0;
+        while(!cursor2.isAfterLast()){
+            String name = cursor2.getString(1);
+            peopleInTheTrip.add(new String(name));
+            cursor2.moveToNext();
+        }
+*/
         Trip newTrip = cursorToTrip(cursor1, cursor2);
         cursor1.close();
         cursor2.close();
@@ -114,7 +123,8 @@ public class TablesDataSource {
         String tripDate = cursor1.getString(2);
         String tripTime = cursor1.getString(3);
         String tripName = cursor1.getString(4);
-        Trip trip= new Trip(tripId, tripLocation, tripDate, tripTime, tripName, cursorToPerson(tripId, cursor2));
+        peopleArrayList = cursorToPerson(tripId, cursor2);
+        Trip trip= new Trip(tripId, tripLocation, tripDate, tripTime, tripName, peopleArrayList);
 
         return trip;
     }
@@ -122,7 +132,7 @@ public class TablesDataSource {
     private ArrayList<Person> cursorToPerson(int tripId, Cursor cursor){
         ArrayList<Person> arrayList = new ArrayList<Person>();
         //int tripId = cursor.getInt(0);
-        while(tripId == cursor.getInt(0) && (!cursor.isAfterLast())){
+        while (!cursor.isAfterLast()){
             String name = cursor.getString(1);
             arrayList.add(new Person(tripId, name));
             cursor.moveToNext();

@@ -257,6 +257,7 @@ public class CreateTripActivity extends Activity {
 
 						Log.e("Phone no & name :***: ", name + " : " + no);
 						printAddedPerson.setText("Added " + name + " : " + no + "\n");
+						phoneCur.close();
 
 						id = null;
 						name = null;
@@ -297,6 +298,23 @@ public class CreateTripActivity extends Activity {
 		fourSquareApi.putExtra("searchVal", toBeSent);
 		startActivityForResult(fourSquareApi, 1);
 
+	}
+
+
+	@Override
+	protected void onResume() {
+		try {
+			tablesDataSource.open();
+		}catch (SQLException sqlException){
+			sqlException.printStackTrace();
+		}
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		tablesDataSource.close();
+		super.onPause();
 	}
 
 }

@@ -3,12 +3,10 @@ package com.nyu.cs9033.eta.controllers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
-import com.nyu.cs9033.eta.models.Trip;
 
 public class MainActivity extends Activity {
 
@@ -17,8 +15,8 @@ public class MainActivity extends Activity {
 	private static final String TRIP_DATA = "TripData";
 	private Intent createTripIntent;
 	private Intent viewTripIntent;
-	private Trip trip;
-	Parcel tripParcel;
+	//private Trip trip;
+	//Parcel tripParcel;
 
 	Bundle newBundle = new Bundle();
 
@@ -83,7 +81,7 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO - fill in here
 		Bundle newBundle = new Bundle();
-		if (requestCode == 1) {
+		if (requestCode == 2) {
 
 			Toast.makeText(this, "Successfully returned from the activity", Toast.LENGTH_SHORT).show();
 

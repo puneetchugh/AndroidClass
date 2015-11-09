@@ -133,9 +133,17 @@ public class TablesDataSource {
         ArrayList<Person> arrayList = new ArrayList<Person>();
         //int tripId = cursor.getInt(0);
         while (!cursor.isAfterLast()){
-            String name = cursor.getString(1);
-            arrayList.add(new Person(tripId, name));
-            cursor.moveToNext();
+
+            if(cursor.getInt(0) == tripId) {
+
+                String name = cursor.getString(1);
+                arrayList.add(new Person(tripId, name));
+                cursor.moveToNext();
+            }
+
+            else{
+                break;
+            }
         }
         return arrayList;
     }

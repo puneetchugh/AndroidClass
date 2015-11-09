@@ -1,9 +1,9 @@
 package com.nyu.cs9033.eta.controllers;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
@@ -15,205 +15,66 @@ import java.util.List;
 
 public class ViewTripActivity extends Activity {
 
-	private TablesDataSource tablesDataSource;
-	private static final String TAG = "ViewTripActivity";
-	private ArrayList<TextView> displayPeople;
-	private TextView gettingTripName;
-	/*
-	private TextView firstPersonTextView;
-	private TextView secondPersonTextView;
-	private TextView thirdPersonTextView;
-	private TextView fourthPersonTextView;
-	private TextView fifthPersonTextView;
-	*/
-	private TextView dateTextView;
-	private TextView timeTextView;
-	private TextView locationTextView;
-	private TextView tripName;
-	private TextView peopleOnTheTrip;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	ListView list;
+	CustomAdapter adapter;
+	public  ViewTripActivity CustomListView = null;
+	public ArrayList<Trip> CustomListViewValuesArr = new ArrayList<Trip>();
 
-		// TODO - fill in here
-		setContentView(R.layout.view_trip);
-		displayPeople = new ArrayList<TextView>();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.list_view_trip_activity);
+
+		CustomListView = this;
+
+		/******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
+		setListData();
+
+		Resources res =getResources();
+		list= ( ListView )findViewById( R.id.list );  // List defined in XML ( See Below )
+
+		/**************** Create Custom Adapter *********/
+		adapter=new CustomAdapter( CustomListView, CustomListViewValuesArr,res );
+		list.setAdapter( adapter );
+
+	}
+
+	/****** Function to set data in ArrayList *************/
+	public void setListData()
+	{
+
+		TablesDataSource tablesDataSource = new TablesDataSource(this);
 		try {
 			tablesDataSource.open();
-		}catch (SQLException sqlException ){
+		} catch (SQLException sqlException){
 			sqlException.printStackTrace();
 		}
+		final List<Trip> trips = tablesDataSource.getAllTrips();
+		tablesDataSource.close();
+		for (int i = 0; i < trips.size(); i++) {
 
-		//LinearLayout linearLayout = (LinearLayout) findViewById(R.id.view_trip_id);
-		/*
-		firstPersonTextView = (TextView) findViewById(R.id.friend_one_id);
-		secondPersonTextView = (TextView) findViewById(R.id.friend_two_id);
-		thirdPersonTextView = (TextView) findViewById(R.id.friend_three_id);
-		fourthPersonTextView = (TextView) findViewById(R.id.friend_four_id);
-		fifthPersonTextView = (TextView) findViewById(R.id.friend_five_id);
-		*/
-		dateTextView = (TextView) findViewById(R.id.view_date_id);
-		timeTextView = (TextView) findViewById(R.id.view_time_id);
-		locationTextView = (TextView) findViewById(R.id.view_location_id);
-		gettingTripName = (TextView) findViewById(R.id.trip_name_id);
-		peopleOnTheTrip = (TextView) findViewById(R.id.people_on_trip_id);
-		tripName = (TextView) findViewById(R.id.trip_name);
-		peopleOnTheTrip = (TextView) findViewById(R.id.peoples_name);
-
-
-		//setContentView(R.layout.view_trip);
-
-		Intent tripIntent = getIntent();
-
-		//Trip trip = getTrip(tripIntent, savedInstanceState);
-		List<Trip> trips = tablesDataSource.getAllTrips();
-		if(trips == null){
-			Toast.makeText(this, "You cannot View the trip before creating one !", Toast.LENGTH_SHORT).show();
-			Intent newIntent = new Intent(this, MainActivity.class);
-			startActivity(newIntent);
+			CustomListViewValuesArr.add( trips.get(i) );
 		}
-		/*
-		for(int loopCounter = 0; loopCounter < trip.getNumberOfPerson(); loopCounter++){
-			displayPeople.add(new TextView(this));
-			displayPeople.get(loopCounter).setId(loopCounter);
-			linearLayout.addView(displayPeople.get(loopCounter));
-		}*/
-		viewTrip(trips.get(0));
+
 	}
-	
-	/**
-	 * Create a Trip object via the recent trip that
-	 * was passed to TripViewer via an Intent.
-	 * 
-	 * @param i The Intent that contains
-	 * the most recent trip data.
-	 * 
-	 * @return The Trip that was most recently
-	 * passed to TripViewer, or null if there
-	 * is none.
-	 */
-	/*
-	public Trip getTrip(Intent i, Bundle newBundle) {
-		
-		// TODO - fill in here
-		//Bundle newBundle = new Bundle();
-		//newBundle = i.getExtras();
-		//if(newBundle == null){
-		//	return null;
-		//}
-		Trip trip = (Trip)newBundle.getParcelable("TRIP");
-
-		int tripId = trip.getId();
-		String location = trip.getLocation();
-		String date = trip.getDate();
-		String time = trip.getTime();*/
-		/*
-		String firstName = trip.getFirstPerson();
-		String secondName = trip.getSecondPerson();
-		String thirdName = trip.getThirdPerson();
-		String fourthName = trip.getFourthPerson();
-		String fifthName = trip.getFifthPerson();
-		*/
-			/*
-		String tripName = trip.getTripName();
-		int numberOfPeople = trip.getNumberOfPerson();
-		ArrayList<String> peopleString = trip.getNames();
 
 
-		ArrayList<Person> people = new ArrayList<Person>();
-		for(int loopCounter = 0; loopCounter < numberOfPeople; loopCounter++){
-			people.add(new Person(peopleString.get(loopCounter)));
-		}
-
-		trip = new Trip(tripId, location,date,time,tripName, people);
-		return trip;
-	}*/
+	/*****************  This function used by adapter ****************/
+	public void onItemClick(int mPosition)
+	{
+		Trip tempValues = ( Trip) CustomListViewValuesArr.get(mPosition);
 
 
-	/**
-	 * Populate the View using a Trip model.
-	 * 
-	 * @param trip The Trip model used to
-	 * populate the View.
-	 */
-	public void viewTrip(Trip trip) {
-		
-		// TODO - fill in here
-		/*
-		if(trip.getFirstPerson() !=null){
-			firstPersonTextView.setText(trip.getFirstPerson());
-		}
+		// SHOW ALERT
 
-		if(trip.getSecondPerson() != null){
-			secondPersonTextView.setText(trip.getSecondPerson());
-		}
-
-		if(trip.getThirdPerson() != null){
-			thirdPersonTextView.setText(trip.getThirdPerson());
-		}
-
-		if(trip.getFourthPerson() != null){
-			fourthPersonTextView.setText(trip.getFourthPerson());
-		}
-
-		if(trip.getFifthPerson() != null) {
-			fifthPersonTextView.setText(trip.getFifthPerson());
-
-		}
-		*/
-
-		ArrayList<String> people = trip.getNames();
-		int loopCounter = 0;
-		StringBuilder peopleStringBuilder = new StringBuilder();
-		for(String individual: people){
-			peopleStringBuilder.append(individual);
-			peopleStringBuilder.append("; ");
-		}
-		String peopleString = peopleStringBuilder.toString();
-		peopleOnTheTrip.setText(peopleString);
-		if(trip.getLocation() != null){
-			if(trip.getLocation() ==""){
-
-				locationTextView.setText("Not Mentioned");
-			}
-			else {
-				locationTextView.setText(trip.getLocation());
-			}
-		}
-
-
-
-		if(trip.getDate() != null) {
-			if(trip.getLocation() == ""){
-				dateTextView.setText("Not mentioned");
-			}
-			else {
-				dateTextView.setText(trip.getDate());
-			}
-		}
-
-
-		if(trip.getTime()!=null) {
-			if (trip.getTime() == "") {
-				timeTextView.setText("Not mentioned");
-			} else {
-				timeTextView.setText(trip.getTime());
-			}
-
-		}
-
-		else{
-			timeTextView.setText(trip.getTime());
-		}
-
-		if(trip.getTripName() != null){
-			if(trip.getTripName() == ""){
-				gettingTripName.setText("Not mentioned");
-			}
-			else {
-				gettingTripName.setText(trip.getTripName());
-			}
-		}
+		Toast.makeText(CustomListView,
+				"" + tempValues.getTripName()
+						+ " " + tempValues.getNumberOfPerson() +
+						" " + tempValues.getLocation() +
+						" " + tempValues.getTime(),
+		Toast.LENGTH_LONG)
+		.show();
 	}
 }

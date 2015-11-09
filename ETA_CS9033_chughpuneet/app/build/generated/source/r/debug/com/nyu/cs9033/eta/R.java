@@ -38,30 +38,32 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0012;
+        public static final int action_settings=0x7f0a0013;
         public static final int cancel_button_id=0x7f0a0009;
         public static final int create_button_id=0x7f0a0008;
         public static final int date_id=0x7f0a0006;
         public static final int enter_loc_id=0x7f0a0002;
         public static final int enter_rest_type=0x7f0a0004;
+        public static final int list=0x7f0a000a;
         public static final int location_id=0x7f0a0003;
-        public static final int people_on_trip_id=0x7f0a000d;
-        public static final int peoples_name=0x7f0a000e;
+        public static final int people_on_trip_id=0x7f0a000e;
+        public static final int peoples_name=0x7f0a000f;
         public static final int print_added_name_id=0x7f0a0001;
         public static final int time_id=0x7f0a0007;
-        public static final int trip_name=0x7f0a000b;
-        public static final int trip_name_id=0x7f0a000c;
+        public static final int trip_name=0x7f0a000c;
+        public static final int trip_name_id=0x7f0a000d;
         public static final int type_name_id=0x7f0a0000;
         public static final int type_res_type=0x7f0a0005;
-        public static final int view_date_id=0x7f0a0010;
-        public static final int view_location_id=0x7f0a000f;
-        public static final int view_time_id=0x7f0a0011;
-        public static final int view_trip_id=0x7f0a000a;
+        public static final int view_date_id=0x7f0a0011;
+        public static final int view_location_id=0x7f0a0010;
+        public static final int view_time_id=0x7f0a0012;
+        public static final int view_trip_id=0x7f0a000b;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int create_trip=0x7f030001;
-        public static final int view_trip=0x7f030002;
+        public static final int list_view_trip_activity=0x7f030002;
+        public static final int view_trip=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f090000;

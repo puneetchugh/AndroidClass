@@ -61,12 +61,12 @@
     <string name="trip_location">Trip Location</string>
     <string name="trip_name_id">Name Your Trip</string>
     <string name="trip_time">Trip Time</string>
-    <string name="type_date">Type Date</string>
+    <string name="type_date">yyyy-MM-dd</string>
     <string name="type_location">Type Location</string>
     <string name="type_name">Type Name</string>
     <string name="type_name_id">Type trip name</string>
     <string name="type_rest_cat">Type Restaurant Category</string>
-    <string name="type_time">Type Time</string>
+    <string name="type_time">HH:MM</string>
     <string name="view_date_id">Date</string>
     <string name="view_location_id">Trip Location</string>
     <string name="view_time_id">Time</string>

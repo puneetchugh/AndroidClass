@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CreateTripActivity extends Activity {
@@ -89,8 +91,6 @@ public class CreateTripActivity extends Activity {
 
 
 				Trip trip = createTrip();
-
-
 				saveTrip(trip);
 
 
@@ -114,9 +114,54 @@ public class CreateTripActivity extends Activity {
 
 		//String location = tripLocation.getText().toString();
 		String date = tripDate.getText().toString();
+		if(date == null || date.matches("")){
+			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat(date);
+		}catch (Exception e){
+			Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+		}
 		String time = tripTime.getText().toString();
-		String name = tripName.getText().toString();
+		if(time == null || time.matches("")){
+			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+		}
+		try{
+			String[] timeValidation;
+			timeValidation = time.split(":");
+			int counter = 0;
+			//for(String timeVal: timeValidation){
+			int timeValIntegerHour = Integer.parseInt(timeValidation[0]);
+			if((timeValIntegerHour >24) || (timeValIntegerHour<0)){
+				Toast.makeText(this,"You did not enter a valid time in HH:MM format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+				return null;
+				}
+			int timeValIntegerMinute = Integer.parseInt(timeValidation[1]);
+			if((timeValIntegerMinute > 60) || (timeValIntegerMinute < 0)){
+				Toast.makeText(this, "You did not enter a valid time in HH:MM format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+				return null;
+			}
+			}catch (Exception e) {
+			Toast.makeText(this, "You did not enter a valid time in HH:MM format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			return null;
+		}
 
+		String name = tripName.getText().toString();
+		if(name == null || name.matches("")){
+			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+
+		if(location == null || location.matches("")){
+			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+
+		if((people == null) || (people.size() == 0)){
+			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			return null;
+		}
 
 		/*
 		if(puneet.isChecked()){
@@ -290,7 +335,12 @@ public class CreateTripActivity extends Activity {
 
 		String tripLocationString = tripLocation.getText().toString();
 		String enterRestaurantString = restaurantType.getText().toString();
+		//Toast.makeText(this, "tripLocaiton is "+ tripLocationString, Toast.LENGTH_SHORT).show();
 
+		if((tripLocationString == null)|| (tripLocationString.matches("")) || (enterRestaurantString == null) || (enterRestaurantString.matches(""))){
+			Toast.makeText(this, "You have to enter both fields for restaurant", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		String toBeSent = tripLocationString+"::"+enterRestaurantString;
 
 		Intent fourSquareApi = new Intent(Intent.ACTION_VIEW);

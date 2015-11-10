@@ -61,10 +61,11 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
     /********* Create a holder Class to contain inflated xml file elements *********/
     public static class ViewHolder{
 
-        public TextView tripName;
-        public TextView peopleGoingOnTrip;
+        public TextView tripId;
         public TextView tripLocation;
-        public TextView tripTime;
+        //public TextView peopleGoingOnTrip;
+        //public TextView tripLocation;
+        //public TextView tripTime;
 
     }
 
@@ -77,15 +78,16 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         if(convertView==null){
 
             /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
-            vi = inflater.inflate(R.layout.view_trip, null);
+            vi = inflater.inflate(R.layout.showing_list, null);
 
             /****** View Holder Object to contain tabitem.xml file elements ******/
 
             holder = new ViewHolder();
-            holder.tripName = (TextView) vi.findViewById(R.id.trip_name_id);
-            holder.peopleGoingOnTrip=(TextView)vi.findViewById(R.id.peoples_name);
-            holder.tripLocation=(TextView)vi.findViewById(R.id.view_location_id);
-            holder.tripTime = (TextView)vi.findViewById(R.id.view_time_id);
+            holder.tripId = (TextView) vi.findViewById(R.id.trip_id);
+            //holder.tripName = (TextView) vi.findViewById(R.id.trip_name_id);
+            //holder.peopleGoingOnTrip=(TextView)vi.findViewById(R.id.peoples_name);
+            holder.tripLocation=(TextView)vi.findViewById(R.id.trip_location);
+            //holder.tripTime = (TextView)vi.findViewById(R.id.view_time_id);
 
             /************  Set holder with LayoutInflater ************/
             vi.setTag( holder );
@@ -95,7 +97,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         if(trips.size()<=0)
         {
-            holder.tripName.setText("No Data");
+            holder.tripId.setText("No Data");
 
         }
         else
@@ -114,11 +116,12 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
                 peopleStringBuilder.append("; ");
             }
             peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
-
-            holder.tripName.setText( tempValues.getTripName() );
-            holder.peopleGoingOnTrip.setText(peopleStringBuilder.toString());
+            String tripIdString = "Trip "+Integer.toString(tempValues.getId()+1);
+            holder.tripId.setText(tripIdString);
+            //holder.tripName.setText( tempValues.getTripName() );
+            //holder.peopleGoingOnTrip.setText(peopleStringBuilder.toString());
             holder.tripLocation.setText(tempValues.getLocation());
-            holder.tripTime.setText(tempValues.getTime());
+            //holder.tripTime.setText(tempValues.getTime());
 
             /******** Set Item Click Listner for LayoutInflater for each row *******/
 

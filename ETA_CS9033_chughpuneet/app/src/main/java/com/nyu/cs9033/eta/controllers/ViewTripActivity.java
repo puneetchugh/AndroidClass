@@ -1,10 +1,10 @@
 package com.nyu.cs9033.eta.controllers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Trip;
@@ -62,19 +62,27 @@ public class ViewTripActivity extends Activity {
 
 
 	/*****************  This function used by adapter ****************/
-	public void onItemClick(int mPosition)
-	{
-		Trip tempValues = ( Trip) CustomListViewValuesArr.get(mPosition);
+	public void onItemClick(int mPosition) {
+		Trip tempValues = (Trip) CustomListViewValuesArr.get(mPosition);
 
 
+		ArrayList<String> people = tempValues.getNames();
+		int loopCounter = 0;
+		StringBuilder peopleStringBuilder = new StringBuilder();
+		for (String individual : people) {
+			peopleStringBuilder.append(individual);
+			peopleStringBuilder.append("; ");
+		}
+
+		peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
+
+		Intent forViewingAnItem = new Intent(this, ShowListItem.class);
+		forViewingAnItem.putExtra("trip_name", tempValues.getTripName());
+		forViewingAnItem.putExtra("people_on_the_trip", peopleStringBuilder.toString());
+		forViewingAnItem.putExtra("trip_location", tempValues.getLocation());
+		forViewingAnItem.putExtra("trip_date",tempValues.getDate());
+		forViewingAnItem.putExtra("trip_time", tempValues.getTime());
+		startActivity(forViewingAnItem);
 		// SHOW ALERT
-
-		Toast.makeText(CustomListView,
-				"" + tempValues.getTripName()
-						+ " " + tempValues.getNumberOfPerson() +
-						" " + tempValues.getLocation() +
-						" " + tempValues.getTime(),
-		Toast.LENGTH_LONG)
-		.show();
 	}
 }

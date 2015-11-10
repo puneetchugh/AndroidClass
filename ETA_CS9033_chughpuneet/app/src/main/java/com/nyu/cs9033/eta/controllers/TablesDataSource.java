@@ -110,7 +110,6 @@ public class TablesDataSource {
             cursor1.moveToNext();
 
         }
-        // make sure to close the cursor
         cursor1.close();
         cursor2.close();
         return trips;

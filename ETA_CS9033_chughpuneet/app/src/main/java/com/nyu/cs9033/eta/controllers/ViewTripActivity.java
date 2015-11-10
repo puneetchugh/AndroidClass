@@ -29,19 +29,18 @@ public class ViewTripActivity extends Activity {
 
 		CustomListView = this;
 
-		/******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
 		setListData();
 
 		Resources res =getResources();
 		list= ( ListView )findViewById( R.id.list );  // List defined in XML ( See Below )
 
-		/**************** Create Custom Adapter *********/
+
 		adapter=new CustomAdapter( CustomListView, CustomListViewValuesArr,res );
 		list.setAdapter( adapter );
 
 	}
 
-	/****** Function to set data in ArrayList *************/
+
 	public void setListData()
 	{
 
@@ -61,7 +60,7 @@ public class ViewTripActivity extends Activity {
 	}
 
 
-	/*****************  This function used by adapter ****************/
+
 	public void onItemClick(int mPosition) {
 		Trip tempValues = (Trip) CustomListViewValuesArr.get(mPosition);
 

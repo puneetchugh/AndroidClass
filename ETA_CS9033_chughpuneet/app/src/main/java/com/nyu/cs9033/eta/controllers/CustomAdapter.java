@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
-    /*********** Declare Used Variables *********/
+
     private Activity activity;
     private ArrayList<Trip> trips;
     private static LayoutInflater inflater=null;
@@ -28,21 +28,20 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
     Trip tempValues=null;
     int i=0;
 
-    /*************  CustomAdapter Constructor *****************/
+
     public CustomAdapter(Activity activity, ArrayList<Trip> trips,Resources res) {
 
-        /********** Take passed values **********/
+
         this.activity = activity;
         this.trips = trips;
         this.res = res;
 
-        /***********  Layout inflator to call external xml layout () ***********/
+
         inflater = ( LayoutInflater )activity.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
-    /******** What is the size of Passed Arraylist Size ************/
     public int getCount() {
 
         if(trips.size()<=0)
@@ -63,13 +62,10 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         public TextView tripId;
         public TextView tripLocation;
-        //public TextView peopleGoingOnTrip;
-        //public TextView tripLocation;
-        //public TextView tripTime;
 
     }
 
-    /****** Depends upon data size called for each row , Create each ListView row *****/
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View vi = convertView;
@@ -77,19 +73,16 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         if(convertView==null){
 
-            /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
+
             vi = inflater.inflate(R.layout.showing_list, null);
 
-            /****** View Holder Object to contain tabitem.xml file elements ******/
 
             holder = new ViewHolder();
             holder.tripId = (TextView) vi.findViewById(R.id.trip_id);
-            //holder.tripName = (TextView) vi.findViewById(R.id.trip_name_id);
-            //holder.peopleGoingOnTrip=(TextView)vi.findViewById(R.id.peoples_name);
             holder.tripLocation=(TextView)vi.findViewById(R.id.trip_location);
-            //holder.tripTime = (TextView)vi.findViewById(R.id.view_time_id);
 
-            /************  Set holder with LayoutInflater ************/
+
+
             vi.setTag( holder );
         }
         else
@@ -102,11 +95,11 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         }
         else
         {
-            /***** Get each Model object from Arraylist ********/
+
             tempValues=null;
             tempValues = ( Trip ) trips.get( position );
 
-            /************  Set Model values in Holder elements ***********/
+
 
             ArrayList<String> people = tempValues.getNames();
             int loopCounter = 0;
@@ -123,7 +116,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             holder.tripLocation.setText(tempValues.getLocation());
             //holder.tripTime.setText(tempValues.getTime());
 
-            /******** Set Item Click Listner for LayoutInflater for each row *******/
+
 
             vi.setOnClickListener(new OnItemClickListener( position ));
         }
@@ -135,7 +128,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         Log.v("CustomAdapter", "=====Row button clicked=====");
     }
 
-    /********* Called when Item click in ListView ************/
+
     private class OnItemClickListener  implements View.OnClickListener {
 
         private int mPosition;
@@ -150,7 +143,6 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
             ViewTripActivity viewTripActivity = (ViewTripActivity)activity;
 
-            /****  Call  onItemClick Method inside CustomListViewAndroidExample Class ( See Below )****/
 
             viewTripActivity.onItemClick(mPosition);
         }

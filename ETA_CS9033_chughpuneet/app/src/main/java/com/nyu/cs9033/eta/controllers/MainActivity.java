@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nyu.cs9033.eta.R;
+import com.nyu.cs9033.eta.models.Trip;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -39,8 +43,8 @@ public class MainActivity extends Activity {
 
 		// TODO - fill in here
 		createTripIntent = new Intent(this, CreateTripActivity.class);
-		startActivityForResult(createTripIntent, 1);
-
+		//startActivityForResult(createTripIntent, 1);
+		startActivity(createTripIntent);
 	}
 
 	/**
@@ -50,6 +54,17 @@ public class MainActivity extends Activity {
 	 */
 	public void startViewTripActivity(View view) {
 
+		TablesDataSource tablesDataSource = new TablesDataSource(this);
+		try{
+			tablesDataSource.open();
+		}catch (SQLException sqlException){
+			Toast.makeText(this, "You cannot view the trips before creating one", Toast.LENGTH_SHORT).show();
+			sqlException.printStackTrace();
+		}
+		List<Trip> tripArrayList = tablesDataSource.getAllTrips();
+		if(tripArrayList.size() == 0){
+			Toast.makeText(this, "You cannot view the trips before creating one", Toast.LENGTH_SHORT).show();
+		}
 		// TODO - fill in here
 		/*
 		if(trip == null){
@@ -57,10 +72,12 @@ public class MainActivity extends Activity {
 		}*/
 		//else {
 			//Bundle newBundle = new Bundle();
+		else {
 			viewTripIntent = new Intent(this, ViewTripActivity.class);
 			//newBundle.putParcelable("TRIP", trip);
 			//viewTripIntent.putExtras(newBundle);
 			startActivity(viewTripIntent);
+		}
 		//}
 	}
 
@@ -76,15 +93,19 @@ public class MainActivity extends Activity {
 	 * Parcelable form. The actual Trip object should
 	 * be created and saved in a variable for future
 	 * use, i.e. to view the trip.
+	 *
 	 */
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+
+
+	//public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO - fill in here
-		Bundle newBundle = new Bundle();
+	/*	Bundle newBundle = new Bundle();
 		if (requestCode == 2) {
 
 			Toast.makeText(this, "Successfully returned from the activity", Toast.LENGTH_SHORT).show();
-
+	*/
 			//if (data != null) {
 				/*
 				newBundle = data.getExtras();
@@ -119,6 +140,6 @@ public class MainActivity extends Activity {
 
 				//}
 			//}
-		}
-	}
+		//}
+	//}
 }

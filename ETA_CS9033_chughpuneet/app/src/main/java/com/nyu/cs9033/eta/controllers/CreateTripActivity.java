@@ -119,6 +119,19 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 		try {
+
+			String[] dateStringsCombined = date.split("-");
+			int[] dateStrings = new int[3];
+			dateStrings[0] = Integer.parseInt(dateStringsCombined[0]);
+			dateStrings[1] = Integer.parseInt(dateStringsCombined[1]);
+			dateStrings[2] = Integer.parseInt(dateStringsCombined[2]);
+			if((dateStrings[0]>1000) && (dateStrings[0] <10000) && (dateStrings[1] > 0) && (dateStrings[1] <= 12) && (dateStrings[2]> 0) && (dateStrings[2] <= 31)){
+			}
+			else{
+				Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+				return null;
+				
+			}
 			SimpleDateFormat dateFormat = new SimpleDateFormat(date);
 		}catch (Exception e){
 			Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
@@ -228,12 +241,13 @@ public class CreateTripActivity extends Activity {
 
 
 		Intent intent = new Intent(CreateTripActivity.this, MainActivity.class);
+		startActivity(intent);
 		//Bundle newBundle = new Bundle();
 		//newBundle.putParcelable(TRIP_DATA,trip);
 		//intent.putExtras(newBundle);
 		//intent.putExtra(TRIP_DATA,trip);
-		setResult(RESULT_CODE, intent);
-		finish();
+		//setResult(RESULT_CODE, intent);
+		//finish();
 
 		return true;
 		//return false;

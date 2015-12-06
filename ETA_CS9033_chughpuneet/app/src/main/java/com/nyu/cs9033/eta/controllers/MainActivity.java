@@ -19,8 +19,7 @@ public class MainActivity extends Activity {
 	private static final String TRIP_DATA = "TripData";
 	private Intent createTripIntent;
 	private Intent viewTripIntent;
-	//private Trip trip;
-	//Parcel tripParcel;
+
 
 	Bundle newBundle = new Bundle();
 
@@ -28,8 +27,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		// TODO - fill in here
 
 
 	}
@@ -41,9 +38,8 @@ public class MainActivity extends Activity {
 	 */
 	public void startCreateTripActivity(View view) {
 
-		// TODO - fill in here
+
 		createTripIntent = new Intent(this, CreateTripActivity.class);
-		//startActivityForResult(createTripIntent, 1);
 		startActivity(createTripIntent);
 	}
 
@@ -55,91 +51,23 @@ public class MainActivity extends Activity {
 	public void startViewTripActivity(View view) {
 
 		TablesDataSource tablesDataSource = new TablesDataSource(this);
-		try{
+		try {
 			tablesDataSource.open();
-		}catch (SQLException sqlException){
+		} catch (SQLException sqlException) {
 			Toast.makeText(this, "You cannot view the trips before creating one", Toast.LENGTH_SHORT).show();
 			sqlException.printStackTrace();
 		}
 		List<Trip> tripArrayList = tablesDataSource.getAllTrips();
-		if(tripArrayList.size() == 0){
+		if (tripArrayList.size() == 0) {
 			Toast.makeText(this, "You cannot view the trips before creating one", Toast.LENGTH_SHORT).show();
-		}
-		// TODO - fill in here
-		/*
-		if(trip == null){
-			Toast.makeText(this, "You cannot View the trip before creating one !", Toast.LENGTH_SHORT).show();
-		}*/
-		//else {
-			//Bundle newBundle = new Bundle();
-		else {
+		} else {
 			viewTripIntent = new Intent(this, ViewTripActivity.class);
-			//newBundle.putParcelable("TRIP", trip);
-			//viewTripIntent.putExtras(newBundle);
+
 			startActivity(viewTripIntent);
 		}
-		//}
 	}
 
-	/**
-	 * Receive result from CreateTripActivity here.
-	 * Can be used to save instance of Trip object
-	 * which can be viewed in the ViewTripActivity.
-	 * <p/>
-	 * Note: This method will be called when a Trip
-	 * object is returned to the main activity.
-	 * Remember that the Trip will not be returned as
-	 * a Trip object; it will be in the persisted
-	 * Parcelable form. The actual Trip object should
-	 * be created and saved in a variable for future
-	 * use, i.e. to view the trip.
-	 *
-	 */
 
 
 
-
-	//public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO - fill in here
-	/*	Bundle newBundle = new Bundle();
-		if (requestCode == 2) {
-
-			Toast.makeText(this, "Successfully returned from the activity", Toast.LENGTH_SHORT).show();
-	*/
-			//if (data != null) {
-				/*
-				newBundle = data.getExtras();
-				if(newBundle != null){
-					trip = (Trip)newBundle.getParcelable("TripData");
-					String location = trip.getLocation();
-					String date = trip.getDate();
-					String time = trip.getTime();
-					*/
-					/*
-					String firstName = trip.getFirstPerson();
-					String secondName = trip.getSecondPerson();
-					String thirdName = trip.getThirdPerson();
-					String fourthName = trip.getFourthPerson();
-					String fifthName = trip.getFifthPerson();
-					*/
-					/*
-					String tripName = trip.getTripName();
-
-					ArrayList<String> peopleString  =trip.getNames();
-					ArrayList<Person> people = new ArrayList<Person>();
-					for(int loopCounter = 0; loopCounter < trip.getNumberOfPerson(); loopCounter++){
-						people.add(new Person(peopleString.get(loopCounter)));
-					}
-					trip = new Trip(location,date,time,tripName, people);
-					*/
-
-					//trip = new Trip(parcel);
-				//trip = (Trip)getIntent().getExtras("TripData");
-
-
-
-				//}
-			//}
-		//}
-	//}
 }

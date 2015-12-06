@@ -15,6 +15,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TRIP_DATE = "trip_date";
     public static final String COLUMN_PERSON_NAME = "person_name";
     public static final String COLUMN_TRIP_TIME = "trip_time";
+    public static final String COLUMN_TRIP_LOC_LATTITUDE = "loc_latitude";
+    public static final String COLUMN_TRIP_LOC_LONGITUDE = "loc_longitude";
 
     private static final String DATABASE_NAME = "trips.db";
     private static final int DATABASE_VERSION = 1;
@@ -23,7 +25,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + TABLE_TRIPS + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_TRIP_LOC
-            + " text not null," + COLUMN_TRIP_DATE +" text not null," + COLUMN_TRIP_TIME +" text not null,"+COLUMN_TRIP_NAME+" text not null);";
+            + " text not null," + COLUMN_TRIP_DATE +" text not null," + COLUMN_TRIP_TIME +" text not null,"+COLUMN_TRIP_NAME+" text not null, "+ COLUMN_TRIP_LOC_LATTITUDE+" text not null, "+ COLUMN_TRIP_LOC_LONGITUDE+ " text not null);";
 
     private static final String DATABASE_PEOPLE_CREATE = "create table "
             + TABLE_PEOPLE + "(" + COLUMN_ID

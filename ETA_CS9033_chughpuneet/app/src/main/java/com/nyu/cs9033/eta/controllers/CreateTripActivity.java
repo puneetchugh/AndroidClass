@@ -32,13 +32,9 @@ public class CreateTripActivity extends Activity {
 	private int numberOfPeople;
 	ArrayList<Person> people;
 	private Intent intent;
-	/*
-	private CheckBox puneet;
-	private CheckBox hannah;
-	private CheckBox pranay;
-	private CheckBox chenxi;
-	private CheckBox sheryar;
-	*/
+
+	private String loc_latitude;
+	private String loc_longitude;
 	private EditText forAddingPeople;
 	private EditText tripDate;
 	private EditText tripTime;
@@ -51,8 +47,6 @@ public class CreateTripActivity extends Activity {
 	private String location = new String();
 
 	private TablesDataSource tablesDataSource;
-	//Person personPuneet, personHannah, personPranay, personChenxi, personSheryar;
-	//private Object View;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,14 +63,6 @@ public class CreateTripActivity extends Activity {
 		}
 		people = new ArrayList<Person>();
 		tripName = (EditText)findViewById(R.id.type_name_id);
-		//forAddingPeople = (EditText)findViewById(R.id.add_name_id);
-		/*
-		puneet = (CheckBox) findViewById(R.id.puneet_id);
-		hannah = (CheckBox) findViewById(R.id.hannah_id);
-		pranay = (CheckBox) findViewById(R.id.pranay_id);
-		chenxi = (CheckBox) findViewById(R.id.chenxi_id);
-		sheryar = (CheckBox) findViewById(R.id.sheryar_id);
-		*/
 		tripDate = (EditText) findViewById(R.id.date_id);
 		tripTime = (EditText) findViewById(R.id.time_id);
 		tripLocation = (EditText) findViewById(R.id.location_id);
@@ -109,10 +95,6 @@ public class CreateTripActivity extends Activity {
 	 */
 	public Trip createTrip() {
 
-
-		// TODO - fill in here
-
-		//String location = tripLocation.getText().toString();
 		String date = tripDate.getText().toString();
 		if(date == null || date.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
@@ -130,7 +112,7 @@ public class CreateTripActivity extends Activity {
 			else{
 				Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 				return null;
-				
+
 			}
 			SimpleDateFormat dateFormat = new SimpleDateFormat(date);
 		}catch (Exception e){
@@ -176,51 +158,11 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
-		/*
-		if(puneet.isChecked()){
-			personPuneet = new Person("Puneet");
-		}
-		else{
-			personPuneet = new Person("");
-		}
 
-		if(hannah.isChecked()){
-			personHannah = new Person("Hannah");
-		}
-		else{
-			personHannah = new Person("");
-		}
+		Trip trip = tablesDataSource.createTrip(tripCount++, location, date, time, name, people, loc_latitude, loc_longitude);
 
-		if(pranay.isChecked()){
-			personPranay = new Person("Pranay");
-		}
-		else{
-			personPranay = new Person("");
-		}
-
-		if(chenxi.isChecked()){
-			personChenxi = new Person("Chenxi");
-		}
-		else{
-			personChenxi = new Person("");
-		}
-
-		if(sheryar.isChecked()){
-			personSheryar = new Person("Sheryar");
-		}
-		else{
-			personSheryar = new Person("");
-		}
-		*/
-		/*
-		if (forAddingPeople.getText() != null){
-			people.add(new Person(forAddingPeople.getText().toString()));
-		}*/
-
-		Trip trip = tablesDataSource.createTrip(tripCount++, location, date, time, name, people);
-		//Trip trip = new Trip(tripCount,location,date,time,name,people);
 		return trip;
-		//return null;
+
 	}
 
 	/**
@@ -236,33 +178,18 @@ public class CreateTripActivity extends Activity {
 	 * saved.
 	 */
 	public boolean saveTrip(Trip trip) {
-	
-		// TODO - fill in here
 
 
 		Intent intent = new Intent(CreateTripActivity.this, MainActivity.class);
 		startActivity(intent);
-		//Bundle newBundle = new Bundle();
-		//newBundle.putParcelable(TRIP_DATA,trip);
-		//intent.putExtras(newBundle);
-		//intent.putExtra(TRIP_DATA,trip);
-		//setResult(RESULT_CODE, intent);
-		//finish();
+
 
 		return true;
-		//return false;
+
 	}
 
 	public void addPerson(View view) {
-		/*if (forAddingPeople.getText() == null || (forAddingPeople.getText().toString().equals("")) ){
-			Toast.makeText(getApplicationContext(), "You did not enter any name",
-					Toast.LENGTH_LONG).show();
-		} else {
-			people.add(new Person(forAddingPeople.getText().toString()));
-			forAddingPeople.setText(null);
-			forAddingPeople.setHint("Type Name");
-			forAddingPeople.setHintTextColor(getResources().getColor(R.color.white));
-		}*/
+
 		try {
 			Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 			startActivityForResult(intent, 5);
@@ -339,8 +266,8 @@ public class CreateTripActivity extends Activity {
 		else if(reqCode == 1){
 			Intent fourSquareReturn = data;
 			ArrayList<String> dataFromFourSquare = fourSquareReturn.getStringArrayListExtra("retVal");
-			String latitude = dataFromFourSquare.get(2);
-			String longitude = dataFromFourSquare.get(3);
+			loc_latitude = dataFromFourSquare.get(2);
+			loc_longitude = dataFromFourSquare.get(3);
 			location = dataFromFourSquare.get(0)+" "+dataFromFourSquare.get(1) ;
 		}
 	}

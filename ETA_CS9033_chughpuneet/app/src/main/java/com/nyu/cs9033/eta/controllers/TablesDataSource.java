@@ -22,7 +22,7 @@ public class TablesDataSource {
     private MySQLiteHelper dbHelper;
     private String[] allColumnsTripTable = {MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_TRIP_LOC, MySQLiteHelper.COLUMN_TRIP_DATE, MySQLiteHelper.COLUMN_TRIP_TIME,
-            MySQLiteHelper.COLUMN_TRIP_NAME,  };
+            MySQLiteHelper.COLUMN_TRIP_NAME, MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE };
 
     private String[] allColumnsPeopleTable = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PERSON_NAME};
 
@@ -38,13 +38,15 @@ public class TablesDataSource {
         dbHelper.close();
     }
 
-    public Trip createTrip(int id, String tripLocation, String tripDate, String tripTime, String tripName, ArrayList<Person> people) {
+    public Trip createTrip(int id, String tripLocation, String tripDate, String tripTime, String tripName, ArrayList<Person> people, String loc_latitude, String loc_longitude) {
         ContentValues values1 = new ContentValues();
         values1.put(MySQLiteHelper.COLUMN_ID, id);
         values1.put(MySQLiteHelper.COLUMN_TRIP_LOC, tripLocation);
         values1.put(MySQLiteHelper.COLUMN_TRIP_DATE, tripDate);
         values1.put(MySQLiteHelper.COLUMN_TRIP_TIME, tripTime);
         values1.put(MySQLiteHelper.COLUMN_TRIP_NAME, tripName);
+        values1.put(MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, loc_latitude);
+        values1.put(MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE, loc_longitude);
         long insertId = database.insert(MySQLiteHelper.TABLE_TRIPS, null,
                 values1);
         Cursor cursor1 = database.query(MySQLiteHelper.TABLE_TRIPS,
@@ -67,15 +69,7 @@ public class TablesDataSource {
                 allColumnsPeopleTable, MySQLiteHelper.COLUMN_ID + "=" + id, null,
                 null, null, null);
         cursor2.moveToFirst();
-/*
-        ArrayList<String> peopleInTheTrip = new ArrayList<String>();
-        int tripId = 0;
-        while(!cursor2.isAfterLast()){
-            String name = cursor2.getString(1);
-            peopleInTheTrip.add(new String(name));
-            cursor2.moveToNext();
-        }
-*/
+
         Trip newTrip = cursorToTrip(cursor1, cursor2);
         cursor1.close();
         cursor2.close();
@@ -123,7 +117,9 @@ public class TablesDataSource {
         String tripTime = cursor1.getString(3);
         String tripName = cursor1.getString(4);
         peopleArrayList = cursorToPerson(tripId, cursor2);
-        Trip trip= new Trip(tripId, tripLocation, tripDate, tripTime, tripName, peopleArrayList);
+        String loc_latitude = cursor1.getString(5);
+        String loc_longitude = cursor1.getString(6);
+        Trip trip= new Trip(tripId, tripLocation, tripDate, tripTime, tripName, peopleArrayList, loc_latitude, loc_longitude);
 
         return trip;
     }

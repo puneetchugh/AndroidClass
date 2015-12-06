@@ -7,26 +7,17 @@ import java.util.ArrayList;
 
 public class Trip implements Parcelable {
 	
-	// Member fields should exist here, what else do you need for a trip?
-	// Please add additional fields
 
-	//private static int static_count = 0;
 	private int id;
 	private String location;
 	private String time;
 	private String date;
-	/*
-	private String firstPerson;
-	private String secondPerson;
-	private String thirdPerson;
-	private String fourthPerson;
-	private String fifthPerson;
-	*/
 	private String tripName;
-
 	ArrayList<Person> manyPerson = new ArrayList<Person>();
 	private int numberOfPerson;
-	
+	private String loc_latitude;
+	private String loc_longitude;
+
 	/**
 	 * Parcelable creator. Do not modify this function.
 	 */
@@ -49,27 +40,19 @@ public class Trip implements Parcelable {
 	 */
 	public Trip(Parcel p) {
 		
-		// TODO - fill in here
-		//String[] data = new String[8];
-		//p.readStringArray(data);
+
 		this.id = p.readInt();
 		this.location = p.readString();
 		this.date = p.readString();
 		this.time = p.readString();
-
-		/*
-		this.firstPerson = p.readString();
-		this.secondPerson = p.readString();
-		this.thirdPerson = p.readString();
-		this.fourthPerson = p.readString();
-		this.fifthPerson = p.readString();
-		*/
 		this.tripName = p.readString();
 
 		this.numberOfPerson = Integer.parseInt(p.readString());
 		for(int loopCounter = 0; loopCounter < numberOfPerson; loopCounter++){
 			this.manyPerson.add(new Person(id, p.readString()));
 		}
+		this.loc_latitude = p.readString();
+		this.loc_longitude = p.readString();
 
 	}
 	
@@ -81,29 +64,14 @@ public class Trip implements Parcelable {
 	 *
 	 * @param
 	 */
-	public Trip(int id, String location, String date, String time, String tripName, ArrayList<Person> manyPerson) {
+	public Trip(int id, String location, String date, String time, String tripName, ArrayList<Person> manyPerson, String loc_latitude, String loc_longitude) {
 		
-		// TODO - fill in here, please note you must have more arguments here
-
-		//this.id = static_count++;
 		this.id = id;
 		this.location = location;
 		this.date = date;
 		this.time = time;
-		/*
-		this.firstPerson = firstPerson;
-		this.secondPerson = secondPerson;
-		this.thirdPerson = thirdPerson;
-		this.fourthPerson = fourthPerson;
-		this.fifthPerson = fifthPerson;
-		*/
 		this.tripName = tripName;
 
-		//this.numberOfPerson = numberOfPerson;
-
-		/*for(int loopCounter = 0; loopCounter < numberOfPerson; loopCounter++){
-			this.manyPerson[loopCounter] = new Person(manyPerson[loopCounter]);
-			*/
 		int loopCounter = 0;
 		for(Person newPerson: manyPerson){
 			this.manyPerson.add(new Person(id, newPerson.getName()));
@@ -111,6 +79,8 @@ public class Trip implements Parcelable {
 		}
 
 		this.numberOfPerson = manyPerson.size();
+		this.loc_latitude = loc_latitude;
+		this.loc_longitude = loc_longitude;
 
 
 	}
@@ -130,29 +100,23 @@ public class Trip implements Parcelable {
 	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		
-		// TODO - fill in here
-//		dest.writeStringArray(new String[] {
+
 		dest.writeInt(this.id);
 		dest.writeString(this.location);
 		dest.writeString(this.date);
 		dest.writeString(this.time);
 
-				/*
-				dest.writeString(this.firstPerson);
-				dest.writeString(this.secondPerson);
-				dest.writeString(this.thirdPerson);
-				dest.writeString(this.fourthPerson);
-				dest.writeString(this.fifthPerson);
-				*/
 		dest.writeString(this.tripName);
 
 		String totalNumber = Integer.toString(numberOfPerson);
 		dest.writeString(totalNumber);
 		for(int loopCounter = 0; loopCounter < numberOfPerson; loopCounter++){
 			dest.writeString(this.manyPerson.get(loopCounter).getName());
+
 		}
-//		});
+		dest.writeString(this.loc_latitude);
+		dest.writeString(this.loc_longitude);
+
 	}
 	
 	/**
@@ -191,43 +155,30 @@ public class Trip implements Parcelable {
 		this.date = date;
 	}
 
-	/*
-	public String getFirstPerson(){
-		return firstPerson;
-	}
-
-	public String getSecondPerson(){
-		return secondPerson;
-	}
-
-	public String getThirdPerson(){
-		return thirdPerson;
-	}
-
-	public String getFourthPerson(){
-		return fourthPerson;
-	}
-
-	public String getFifthPerson(){
-		return fifthPerson;
-	}
-	*/
 	public String getTripName(){
 		return tripName;
 	}
 
+	public String getLoc_latitude(){
+
+		return loc_latitude;
+	}
+
+	public String getLoc_longitude(){
+
+		return loc_latitude;
+	}
+
+
 	public ArrayList<String> getNames(){
-		//int loopCounter = 0;
+
 		ArrayList<String> names = new ArrayList<String>();
 
 		for(int loopCounter = 0; loopCounter < numberOfPerson; loopCounter++){
 			names.add(new String(manyPerson.get(loopCounter).getName()));
 		}
 		return names;
-		/*
-		for(Person person: manyPerson[loopCounter]){
 
-		}*/
 	}
 
 	public ArrayList<Person> getManyPerson(){

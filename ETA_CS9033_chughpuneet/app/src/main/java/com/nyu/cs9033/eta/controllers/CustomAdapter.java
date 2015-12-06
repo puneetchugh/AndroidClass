@@ -111,12 +111,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
             String tripIdString = "Trip "+Integer.toString(tempValues.getId()+1);
             holder.tripId.setText(tripIdString);
-            //holder.tripName.setText( tempValues.getTripName() );
-            //holder.peopleGoingOnTrip.setText(peopleStringBuilder.toString());
             holder.tripLocation.setText(tempValues.getLocation());
-            //holder.tripTime.setText(tempValues.getTime());
-
-
 
             vi.setOnClickListener(new OnItemClickListener( position ));
         }

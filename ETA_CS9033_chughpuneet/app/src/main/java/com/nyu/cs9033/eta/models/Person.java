@@ -7,7 +7,7 @@ public class Person implements Parcelable {
 	
 	// Member fields should exist here, what else do you need for a person?
 	// Please add additional fields
-	private int id;
+	private long id;
 	private String name;
 	
 	/**
@@ -33,7 +33,7 @@ public class Person implements Parcelable {
 	public Person(Parcel p) {
 		
 		// TODO - fill in here
-		this.id = p.readInt();
+		this.id = p.readLong();
 		this.name = p.readString();
 	}
 	
@@ -43,7 +43,7 @@ public class Person implements Parcelable {
 	 * @param name Add arbitrary number of arguments to
 	 * instantiate Person class based on member variables.
 	 */
-	public Person(int id, String name) {
+	public Person(long id, String name) {
 		
 		// TODO - fill in here, please note you must have more arguments here
 		this.id= id;
@@ -67,7 +67,7 @@ public class Person implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		
 		// TODO - fill in here
-		dest.writeInt(id);
+		dest.writeLong(id);
 		dest.writeString(name);
 	}
 	
@@ -92,7 +92,7 @@ public class Person implements Parcelable {
 		this.name = name;
 	}
 
-	public int getId(){
+	public long getId(){
 		return id;
 	}
 

@@ -38,7 +38,7 @@ public class TablesDataSource {
         dbHelper.close();
     }
 
-    public Trip createTrip(int id, String tripLocation, String tripDate, String tripTime, String tripName, ArrayList<Person> people, String loc_latitude, String loc_longitude) {
+    public Trip createTrip(long id, String tripLocation, String tripDate, String tripTime, String tripName, ArrayList<Person> people, String loc_latitude, String loc_longitude) {
         ContentValues values1 = new ContentValues();
         values1.put(MySQLiteHelper.COLUMN_ID, id);
         values1.put(MySQLiteHelper.COLUMN_TRIP_LOC, tripLocation);
@@ -78,7 +78,7 @@ public class TablesDataSource {
 
 
     public void deleteTRip(Trip trip) {
-        int tripId = trip.getId();
+        long tripId = trip.getId();
         System.out.println("Trip deleted with id: " + tripId);
         database.delete(MySQLiteHelper.TABLE_TRIPS, MySQLiteHelper.COLUMN_ID
                 + " = " + tripId, null);
@@ -96,9 +96,10 @@ public class TablesDataSource {
         Cursor cursor2 = database.query(MySQLiteHelper.TABLE_PEOPLE,
                 allColumnsPeopleTable, null, null, null, null, null);
 
-        cursor2.moveToFirst();
+
         cursor1.moveToFirst();
         while (!cursor1.isAfterLast()) {
+            cursor2.moveToFirst();
             Trip trip = cursorToTrip(cursor1, cursor2);
             trips.add(trip);
             cursor1.moveToNext();
@@ -110,7 +111,7 @@ public class TablesDataSource {
     }
 
     private Trip cursorToTrip(Cursor cursor1, Cursor cursor2) {
-        int tripId = cursor1.getInt(0);
+        long tripId = cursor1.getInt(0);
         ArrayList<Person> peopleArrayList = new ArrayList<Person>();
         String tripLocation = cursor1.getString(1);
         String tripDate = cursor1.getString(2);
@@ -124,7 +125,7 @@ public class TablesDataSource {
         return trip;
     }
 
-    private ArrayList<Person> cursorToPerson(int tripId, Cursor cursor){
+    private ArrayList<Person> cursorToPerson(long tripId, Cursor cursor){
         ArrayList<Person> arrayList = new ArrayList<Person>();
         //int tripId = cursor.getInt(0);
         while (!cursor.isAfterLast()){
@@ -137,7 +138,7 @@ public class TablesDataSource {
             }
 
             else{
-                break;
+                cursor.moveToNext();
             }
         }
         return arrayList;

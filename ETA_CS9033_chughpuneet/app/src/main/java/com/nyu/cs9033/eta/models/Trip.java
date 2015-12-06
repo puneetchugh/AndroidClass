@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Trip implements Parcelable {
 	
 
-	private int id;
+	private long id;
 	private String location;
 	private String time;
 	private String date;
@@ -41,7 +41,7 @@ public class Trip implements Parcelable {
 	public Trip(Parcel p) {
 		
 
-		this.id = p.readInt();
+		this.id = p.readLong();
 		this.location = p.readString();
 		this.date = p.readString();
 		this.time = p.readString();
@@ -64,7 +64,7 @@ public class Trip implements Parcelable {
 	 *
 	 * @param
 	 */
-	public Trip(int id, String location, String date, String time, String tripName, ArrayList<Person> manyPerson, String loc_latitude, String loc_longitude) {
+	public Trip(long id, String location, String date, String time, String tripName, ArrayList<Person> manyPerson, String loc_latitude, String loc_longitude) {
 		
 		this.id = id;
 		this.location = location;
@@ -101,7 +101,7 @@ public class Trip implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 
-		dest.writeInt(this.id);
+		dest.writeLong(this.id);
 		dest.writeString(this.location);
 		dest.writeString(this.date);
 		dest.writeString(this.time);
@@ -123,7 +123,7 @@ public class Trip implements Parcelable {
 	 * Feel free to add additional functions as necessary below.
 	 */
 
-	public int getId(){
+	public long getId(){
 		return id;
 	}
 

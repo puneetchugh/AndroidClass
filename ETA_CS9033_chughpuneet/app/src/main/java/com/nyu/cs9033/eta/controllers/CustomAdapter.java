@@ -108,8 +108,8 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
                 peopleStringBuilder.append(individual);
                 peopleStringBuilder.append("; ");
             }
-            peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
-            String tripIdString = "Trip "+Integer.toString(tempValues.getId()+1);
+//            peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
+            String tripIdString = "Trip "+Long.toString(tempValues.getId()+1);
             holder.tripId.setText(tripIdString);
             holder.tripLocation.setText(tempValues.getLocation());
 

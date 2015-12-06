@@ -73,7 +73,7 @@ public class ViewTripActivity extends Activity {
 			peopleStringBuilder.append("; ");
 		}
 
-		peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
+		//peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
 
 		Intent forViewingAnItem = new Intent(this, ShowListItem.class);
 		forViewingAnItem.putExtra("trip_name", tempValues.getTripName());

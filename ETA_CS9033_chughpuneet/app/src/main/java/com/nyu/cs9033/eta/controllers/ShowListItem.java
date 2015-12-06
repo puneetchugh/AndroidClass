@@ -42,9 +42,8 @@ public class ShowListItem extends Activity {
         tripDateId.setText(tripDate);
         tripTimeId.setText(tripTime);
 
-
-
     }
+
 
 
 }

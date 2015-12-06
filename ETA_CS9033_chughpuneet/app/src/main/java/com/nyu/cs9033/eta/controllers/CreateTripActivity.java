@@ -5,7 +5,9 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -18,21 +20,37 @@ import com.nyu.cs9033.eta.R;
 import com.nyu.cs9033.eta.models.Person;
 import com.nyu.cs9033.eta.models.Trip;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CreateTripActivity extends Activity {
 
-	private static int tripCount = 0;
+	//private static int tripCount = 0;
 	private static final String TAG = "CreateTripActivity";
 	private static final String MAIN_TAG = "MainActivity";
 	private static final String TRIP_DATA = "TripData";
 	private static final int RESULT_CODE = 2;
 	private int numberOfPeople;
 	ArrayList<Person> people;
+	ArrayList<String> peopleNamesTemp = new ArrayList<String>();
 	private Intent intent;
+	private Trip trip;
 
+	private static long tripId;
 	private String loc_latitude;
 	private String loc_longitude;
 	private EditText forAddingPeople;
@@ -95,7 +113,7 @@ public class CreateTripActivity extends Activity {
 	 */
 	public Trip createTrip() {
 
-		String date = tripDate.getText().toString();
+		final String date = tripDate.getText().toString();
 		if(date == null || date.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 			return null;
@@ -118,7 +136,7 @@ public class CreateTripActivity extends Activity {
 		}catch (Exception e){
 			Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
-		String time = tripTime.getText().toString();
+		final String time = tripTime.getText().toString();
 		if(time == null || time.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
@@ -142,7 +160,7 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
-		String name = tripName.getText().toString();
+		final String name = tripName.getText().toString();
 		if(name == null || name.matches("")){
 			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 			return null;
@@ -153,15 +171,54 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
+
+
+
+		makeTripHttpPostRequest();
+
+
+
+
+/*
+		new CountDownTimer(5000, 1000) {
+			public void onFinish() {
+				// When timer is finished
+				// Execute your code here
+				trip = tablesDataSource.createTrip(tripId, location, date, time, name, people, loc_latitude, loc_longitude);
+
+
+			}
+
+			public void onTick(long millisUntilFinished) {
+				// millisUntilFinished    The amount of time until finished.
+			}
+		}.start();
+*/
+		/*
+		try {
+			Thread.sleep(2000);
+		}catch (InterruptedException e){
+
+			e.printStackTrace();
+		}
+*/
+		SystemClock.sleep(2000);
+
+		for(String oneName: peopleNamesTemp){
+			people.add(new Person(tripId, oneName));
+		}
+
 		if((people == null) || (people.size() == 0)){
 			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 			return null;
 		}
 
+		trip = tablesDataSource.createTrip(tripId, location, date, time, name, people, loc_latitude, loc_longitude);
 
-		Trip trip = tablesDataSource.createTrip(tripCount++, location, date, time, name, people, loc_latitude, loc_longitude);
 
 		return trip;
+
+
 
 	}
 
@@ -179,10 +236,7 @@ public class CreateTripActivity extends Activity {
 	 */
 	public boolean saveTrip(Trip trip) {
 
-
-		Intent intent = new Intent(CreateTripActivity.this, MainActivity.class);
-		startActivity(intent);
-
+		finish();
 
 		return true;
 
@@ -210,10 +264,10 @@ public class CreateTripActivity extends Activity {
 	 * the previous activity without a result
 	 * using finish() and setResult().
 	 */
-	public void cancelTrip() {
+	public void cancelTrip(View view) {
 
 		finish();
-		// TODO - fill in here
+
 	}
 
 	@Override
@@ -238,7 +292,8 @@ public class CreateTripActivity extends Activity {
 						if (phoneCur.moveToFirst()) {
 							name = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 							no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							people.add(new Person(tripCount, name));
+							//people.add(new Person(tripId, name));
+							peopleNamesTemp.add(name);
 						}
 
 						Log.e("Phone no & name :***: ", name + " : " + no);
@@ -308,4 +363,145 @@ public class CreateTripActivity extends Activity {
 		super.onPause();
 	}
 
+
+	private void response(String someResponse){
+
+		long[] responseData = new long[2];
+
+		try {
+			responseData = getDataFromJson(someResponse);
+		}
+		catch (JSONException e) {
+			e.printStackTrace();
+			//productInfo.setText(e.getMessage());// set productInfo toast or message
+		}
+
+
+		tripId = responseData[1];
+		//tripInfo.setText("ResponseCode = " + Integer.toString(responseData[0]) + "\nTrip Id = " + Integer.toString(responseData[1]));
+
+
+	}
+
+	public static long[] getDataFromJson(String jString) throws JSONException {
+
+		ArrayList<String> people = new ArrayList<String>();
+
+		JSONObject myjson = new JSONObject(jString);
+
+
+		int responseCode = myjson.getInt("response_code");
+
+		tripId = myjson.getInt("trip_id");
+
+
+		long[] response = new long[2];
+		response[0] = responseCode;
+		response[1] = tripId;
+
+		return response;
+
+	}
+
+	private class CallAPI extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+
+			InputStream in = null;
+			int resCode = -1;
+			try {
+				URL url = new URL(params[0]);
+				URLConnection urlConn = url.openConnection();
+
+				if (!(urlConn instanceof HttpURLConnection)) {
+					throw new IOException("URL is not an Http URL");
+				}
+				HttpURLConnection httpConn = (HttpURLConnection) urlConn;
+				httpConn.setAllowUserInteraction(false);
+				httpConn.setInstanceFollowRedirects(true);
+				httpConn.setRequestMethod("POST");
+				httpConn.connect();
+				try {
+					JSONObject jsonObject = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					jsonArray.put("location name");
+					jsonArray.put("address name");
+					jsonArray.put("latitude");
+					jsonArray.put("longitude");
+					jsonObject.put("command", "CREATE_TRIP");
+					jsonObject.put("location", jsonArray );
+					jsonObject.put("datetime",382584629);
+					JSONArray peopleJSONArray = new JSONArray();
+					peopleJSONArray.put("John Doe");
+					peopleJSONArray.put("Joe Smith");
+					jsonObject.put("people", peopleJSONArray);
+
+					OutputStreamWriter out = new   OutputStreamWriter(httpConn.getOutputStream());
+					out.write(jsonObject.toString());
+					out.close();
+				}catch (JSONException je){
+
+					je.printStackTrace();
+				}
+				resCode = httpConn.getResponseCode();
+
+				if (resCode == HttpURLConnection.HTTP_OK) {
+					in = httpConn.getInputStream();
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String json = convertStreamToString(in);
+
+			long[] jsonData = new long[2];
+			try {
+				jsonData = getDataFromJson(json);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			//JSONObject myjson = new JSONObject(json);
+			tripId = jsonData[1];
+
+
+
+			return json;
+
+		}
+
+
+		public String convertStreamToString(InputStream is){
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+
+			try {
+				while ((line = reader.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+			} catch (IOException e) {
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+				}
+			}
+
+			return sb.toString();
+		}
+		protected void onPostExecute(String stream_url) {
+			super.onPostExecute(stream_url);
+			//response(stream_url);
+		}
+	}
+
+	public void makeTripHttpPostRequest() {
+
+		String urlstring = "http://cs9033-homework.appspot.com/";
+
+		new CallAPI().execute(urlstring);
+	}
 }

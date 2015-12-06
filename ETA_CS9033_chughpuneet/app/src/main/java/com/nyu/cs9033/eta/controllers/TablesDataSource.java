@@ -87,6 +87,17 @@ public class TablesDataSource {
                 + "=" + tripId, null);
     }
 
+    public void updateLocation(long tripId, String latitude, String longitude){
+
+//        Cursor cursor = database.query(MySQLiteHelper.TABLE_TRIPS,
+  //              allColumnsPeopleTable, null, null, null, null, null);
+
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, latitude);
+        values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE, longitude);
+        database.update(MySQLiteHelper.TABLE_TRIPS, values, MySQLiteHelper.COLUMN_ID+"= "+tripId, null );
+    }
+
     public List<Trip> getAllTrips() {
         List<Trip> trips = new ArrayList<Trip>();
 

@@ -34,8 +34,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CreateTripActivity extends Activity {
 
@@ -63,8 +66,11 @@ public class CreateTripActivity extends Activity {
 	private EditText tripName;
 	private TextView printAddedPerson;
 	private String location = new String();
-
+	private String date;
+	private String time;
+	private String name;
 	private TablesDataSource tablesDataSource;
+	JSONObject jsonObject = new JSONObject();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +119,7 @@ public class CreateTripActivity extends Activity {
 	 */
 	public Trip createTrip() {
 
-		final String date = tripDate.getText().toString();
+		date = tripDate.getText().toString();
 		if(date == null || date.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 			return null;
@@ -136,7 +142,7 @@ public class CreateTripActivity extends Activity {
 		}catch (Exception e){
 			Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
-		final String time = tripTime.getText().toString();
+		time = tripTime.getText().toString();
 		if(time == null || time.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
@@ -160,7 +166,7 @@ public class CreateTripActivity extends Activity {
 			return null;
 		}
 
-		final String name = tripName.getText().toString();
+		name = tripName.getText().toString();
 		if(name == null || name.matches("")){
 			Toast.makeText(this,"Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 			return null;
@@ -172,6 +178,47 @@ public class CreateTripActivity extends Activity {
 		}
 
 
+		JSONArray jsonArray = new JSONArray();
+		jsonArray.put(name);
+		jsonArray.put(location);
+		jsonArray.put(loc_latitude);
+		jsonArray.put(loc_longitude);
+		try {
+			jsonObject.put("command", "CREATE_TRIP");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			jsonObject.put("location", jsonArray );
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		DateFormat sdf = new SimpleDateFormat(date+" "+time+":00.000");
+		Date dateTime = null;
+		try {
+			dateTime = sdf.parse(date+" "+time+":00.000");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long timeInMillisSinceEpoch = dateTime.getTime();
+		//long timeInMinutesSinceEpoch = timeInMillisSinceEpoch / (60 * 1000);
+		try {
+			jsonObject.put("datetime",timeInMillisSinceEpoch);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		//jsonObject.put("datetime",382584629);
+		JSONArray peopleJSONArray = new JSONArray();
+		for(String individual: peopleNamesTemp){
+			peopleJSONArray.put(individual);
+		}
+		//peopleJSONArray.put("John Doe");
+		//peopleJSONArray.put("Joe Smith");
+		try {
+			jsonObject.put("people", peopleJSONArray);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
 
 		makeTripHttpPostRequest();
@@ -422,28 +469,11 @@ public class CreateTripActivity extends Activity {
 				httpConn.setInstanceFollowRedirects(true);
 				httpConn.setRequestMethod("POST");
 				httpConn.connect();
-				try {
-					JSONObject jsonObject = new JSONObject();
-					JSONArray jsonArray = new JSONArray();
-					jsonArray.put("location name");
-					jsonArray.put("address name");
-					jsonArray.put("latitude");
-					jsonArray.put("longitude");
-					jsonObject.put("command", "CREATE_TRIP");
-					jsonObject.put("location", jsonArray );
-					jsonObject.put("datetime",382584629);
-					JSONArray peopleJSONArray = new JSONArray();
-					peopleJSONArray.put("John Doe");
-					peopleJSONArray.put("Joe Smith");
-					jsonObject.put("people", peopleJSONArray);
 
-					OutputStreamWriter out = new   OutputStreamWriter(httpConn.getOutputStream());
-					out.write(jsonObject.toString());
-					out.close();
-				}catch (JSONException je){
 
-					je.printStackTrace();
-				}
+				OutputStreamWriter out = new   OutputStreamWriter(httpConn.getOutputStream());
+				out.write(jsonObject.toString());
+				out.close();
 				resCode = httpConn.getResponseCode();
 
 				if (resCode == HttpURLConnection.HTTP_OK) {

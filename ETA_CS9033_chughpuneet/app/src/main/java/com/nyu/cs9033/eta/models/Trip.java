@@ -166,7 +166,7 @@ public class Trip implements Parcelable {
 
 	public String getLoc_longitude(){
 
-		return loc_latitude;
+		return loc_longitude;
 	}
 
 

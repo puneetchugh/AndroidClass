@@ -30,6 +30,7 @@
     <item name="orange" type="color">#FFFFBB33</item>
     <item name="purple" type="color">#FFAA66CC</item>
     <item name="red" type="color">#FFFF4444</item>
+    <item name="transparent" type="color">#00ffffff</item>
     <item name="white" type="color">#FFFFFF</item>
     <!-- From: file:/home/puneet/androidBickford/ETA_CS9033_chughpuneet/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
@@ -44,6 +45,7 @@
     <string name="chenxi">Chenxi</string>
     <string name="create">Create</string>
     <string name="create_trip">Create A Trip</string>
+    <string name="delete_trip">Delete All Trips</string>
     <string name="enter_area">Enter Location</string>
     <string name="enter_rest_type">Enter Rest. Type</string>
     <string name="hannah">Hannah</string>

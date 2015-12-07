@@ -11,6 +11,8 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +48,13 @@ public class ViewTripActivity extends Activity {
 	private Trip tempValues;
 	private String latString;
 	private String longString;
+	private Button deleteAllTrips;
+
+
+	public void deleteAllExistingTrips(View view){
+
+		tablesDataSource.deleteAllTrips();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,7 @@ public class ViewTripActivity extends Activity {
 		setContentView(R.layout.list_view_trip_activity);
 
 
+		deleteAllTrips = (Button) findViewById(R.id.delete_all_trips);
 		CustomListView = this;
 
 		setListData();
@@ -130,17 +140,6 @@ public class ViewTripActivity extends Activity {
 						finish();
 					}
 				})
-				.setNegativeButton("Update", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-
-						updateLocation(tempValues.getId());
-
-						Intent intent = getIntent();
-						finish();
-						startActivity(intent);
-					}
-				})
-
 				.setNeutralButton("Start a Trip", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 

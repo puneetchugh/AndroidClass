@@ -62,6 +62,8 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         public TextView tripId;
         public TextView tripLocation;
+        public TextView tripDateTime;
+        public TextView tripPeople;
 
     }
 
@@ -80,6 +82,8 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             holder = new ViewHolder();
             holder.tripId = (TextView) vi.findViewById(R.id.trip_id);
             holder.tripLocation=(TextView)vi.findViewById(R.id.trip_location);
+            holder.tripDateTime=(TextView)vi.findViewById(R.id.trip_date_time);
+            holder.tripPeople=(TextView)vi.findViewById(R.id.trip_people);
 
 
 
@@ -108,11 +112,12 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
                 peopleStringBuilder.append(individual);
                 peopleStringBuilder.append("; ");
             }
-//            peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
+            peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
             String tripIdString = "Trip "+Long.toString(tempValues.getId()+1);
             holder.tripId.setText(tripIdString);
             holder.tripLocation.setText(tempValues.getLocation());
-
+            holder.tripDateTime.setText(tempValues.getDate()+"  "+tempValues.getTime());
+            holder.tripPeople.setText(peopleStringBuilder.toString());
             vi.setOnClickListener(new OnItemClickListener( position ));
         }
         return vi;

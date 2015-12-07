@@ -225,31 +225,6 @@ public class CreateTripActivity extends Activity {
 		makeTripHttpPostRequest();
 
 
-
-
-/*
-		new CountDownTimer(5000, 1000) {
-			public void onFinish() {
-				// When timer is finished
-				// Execute your code here
-				trip = tablesDataSource.createTrip(tripId, location, date, time, name, people, loc_latitude, loc_longitude);
-
-
-			}
-
-			public void onTick(long millisUntilFinished) {
-				// millisUntilFinished    The amount of time until finished.
-			}
-		}.start();
-*/
-		/*
-		try {
-			Thread.sleep(2000);
-		}catch (InterruptedException e){
-
-			e.printStackTrace();
-		}
-*/
 		SystemClock.sleep(1000);
 
 		for(String oneName: peopleNamesTemp){

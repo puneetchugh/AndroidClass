@@ -176,12 +176,10 @@ public class TablesDataSource {
 
                 String name = cursor.getString(1);
                 arrayList.add(new Person(tripId, name));
-                cursor.moveToNext();
+                //cursor.moveToNext();
             }
 
-            else{
-                cursor.moveToNext();
-            }
+            cursor.moveToNext();
         }
         return arrayList;
     }
@@ -193,5 +191,35 @@ public class TablesDataSource {
 
         ArrayList<Person> allPeople = cursorToPerson(tripId, cursor2);
         return allPeople;
+    }
+
+    public void deleteAllTrips(){
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_TRIPS,
+                allColumnsTripTable, null, null, null, null, null);
+        int counter = 0;
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            counter++;
+            if(counter > 0){
+                break;
+            }
+            cursor.moveToNext();
+        }
+        if(counter != 0){ database.delete(MySQLiteHelper.TABLE_TRIPS, null, null); }
+        cursor.close();
+
+        Cursor cursor2 = database.query(MySQLiteHelper.TABLE_PEOPLE,
+                allColumnsPeopleTable, null, null, null, null, null);
+        counter = 0;
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            counter++;
+            if(counter > 0){
+                break;
+            }
+            cursor.moveToNext();
+        }
+        if(counter != 0){ database.delete(MySQLiteHelper.TABLE_PEOPLE, null, null); }
     }
 }

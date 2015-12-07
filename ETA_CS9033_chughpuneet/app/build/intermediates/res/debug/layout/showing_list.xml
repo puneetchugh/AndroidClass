@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="@color/maroon"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:background="@color/gray"/>
 
     <TextView
@@ -19,7 +19,25 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="@color/maroon"
-        android:textSize="24sp"
+        android:textSize="16sp"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:id="@+id/trip_date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/maroon"
+        android:textSize="16sp"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:id="@+id/trip_people"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/maroon"
+        android:textSize="16sp"
         android:background="@color/gray"/>
 
 </LinearLayout><!-- From: file:/home/puneet/androidBickford/ETA_CS9033_chughpuneet/app/src/main/res/layout/showing_list.xml -->

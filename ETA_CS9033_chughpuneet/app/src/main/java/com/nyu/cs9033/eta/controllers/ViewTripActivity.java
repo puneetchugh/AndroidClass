@@ -93,6 +93,8 @@ public class ViewTripActivity extends Activity {
 		tempValues = (Trip) CustomListViewValuesArr.get(mPosition);
 
 		final Intent forViewingAnItem = new Intent(this, ShowListItem.class);
+		final Intent forStartingATrip = new Intent(this, MainActivity.class);
+
 		ArrayList<String> people = tempValues.getNames();
 		int loopCounter = 0;
 		Toast.makeText(this, "Latitude = " + tempValues.getLoc_latitude()+"Longitude = "+tempValues.getLoc_longitude(), Toast.LENGTH_SHORT).show();
@@ -111,8 +113,8 @@ public class ViewTripActivity extends Activity {
 		alertDialogBuilder
 				.setMessage("Click on the option to chose")
 				.setCancelable(false)
-				.setPositiveButton("View",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
+				.setPositiveButton("View", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
 						// if this button is clicked, close
 						// current activity
 						peopleStringBuilder.setLength(peopleStringBuilder.length() - 1); // to remove ; after last name
@@ -120,7 +122,7 @@ public class ViewTripActivity extends Activity {
 						forViewingAnItem.putExtra("trip_name", tempValues.getTripName());
 						forViewingAnItem.putExtra("people_on_the_trip", peopleStringBuilder.toString());
 						forViewingAnItem.putExtra("trip_location", tempValues.getLocation());
-						forViewingAnItem.putExtra("trip_date",tempValues.getDate());
+						forViewingAnItem.putExtra("trip_date", tempValues.getDate());
 						forViewingAnItem.putExtra("trip_time", tempValues.getTime());
 
 
@@ -136,6 +138,17 @@ public class ViewTripActivity extends Activity {
 						Intent intent = getIntent();
 						finish();
 						startActivity(intent);
+					}
+				})
+
+				.setNeutralButton("Start a Trip", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+						forStartingATrip.putExtra("trip_id", Long.toString(tempValues.getId()));
+						//Intent intent = new Intent(this, MainActivity.class);
+						finish();
+
+						startActivity(forStartingATrip);
 					}
 				});
 
@@ -160,7 +173,7 @@ public class ViewTripActivity extends Activity {
 			latString = Double.toString(lat);
 			longString = Double.toString(lon);
 			makeTripHttpPostRequest();
-			SystemClock.sleep(1000);
+			SystemClock.sleep(500);
 			tablesDataSource.updateLocation(tripId, latString, longString);
 		}
 

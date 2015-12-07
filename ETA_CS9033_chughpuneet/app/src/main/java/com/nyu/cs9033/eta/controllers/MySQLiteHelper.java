@@ -29,7 +29,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_PEOPLE_CREATE = "create table "
             + TABLE_PEOPLE + "(" + COLUMN_ID
-            + " integer ," + COLUMN_PERSON_NAME+" text key not null);";
+            + " integer ," + COLUMN_PERSON_NAME+" text key not null, " + COLUMN_TRIP_LOC_LATTITUDE + " text not null, "+ COLUMN_TRIP_LOC_LONGITUDE+" text not null);";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

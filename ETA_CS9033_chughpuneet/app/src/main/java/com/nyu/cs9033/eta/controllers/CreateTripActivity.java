@@ -140,9 +140,10 @@ public class CreateTripActivity extends Activity {
 			}
 			SimpleDateFormat dateFormat = new SimpleDateFormat(date);
 		}catch (Exception e){
-			Toast.makeText(this, "You did not enter the date in yyyy-MM-dd format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "You did not enter the date in dd.MM.yyyy format. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
 		time = tripTime.getText().toString();
+
 		if(time == null || time.matches("")){
 			Toast.makeText(this, "Missing some field. TRIP NOT SAVED", Toast.LENGTH_SHORT).show();
 		}
@@ -249,7 +250,7 @@ public class CreateTripActivity extends Activity {
 			e.printStackTrace();
 		}
 */
-		SystemClock.sleep(2000);
+		SystemClock.sleep(1000);
 
 		for(String oneName: peopleNamesTemp){
 			people.add(new Person(tripId, oneName));

@@ -9,6 +9,8 @@ public class Person implements Parcelable {
 	// Please add additional fields
 	private long id;
 	private String name;
+	private String longitude;
+	private String latitude;
 	
 	/**
 	 * Parcelable creator. Do not modify this function.
@@ -35,6 +37,8 @@ public class Person implements Parcelable {
 		// TODO - fill in here
 		this.id = p.readLong();
 		this.name = p.readString();
+		this.latitude = p.readString();
+		this.longitude = p.readString();
 	}
 	
 	/**
@@ -48,7 +52,10 @@ public class Person implements Parcelable {
 		// TODO - fill in here, please note you must have more arguments here
 		this.id= id;
 		this.name = name;
+		this.latitude = Double.toString(0.0);
+		this.longitude = Double.toString(0.0);
 	}
+
 
 	/**
 	 * Serialize Person object by using writeToParcel.  
@@ -69,6 +76,8 @@ public class Person implements Parcelable {
 		// TODO - fill in here
 		dest.writeLong(id);
 		dest.writeString(name);
+		dest.writeString(latitude);
+		dest.writeString(longitude);
 	}
 	
 	/**
@@ -98,5 +107,13 @@ public class Person implements Parcelable {
 
 	public void setId(int id){
 		this.id = id;
+	}
+
+	public String getLatitude(){
+		return latitude;
+	}
+
+	public String getLongitude(){
+		return longitude;
 	}
 }

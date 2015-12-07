@@ -24,7 +24,8 @@ public class TablesDataSource {
             MySQLiteHelper.COLUMN_TRIP_LOC, MySQLiteHelper.COLUMN_TRIP_DATE, MySQLiteHelper.COLUMN_TRIP_TIME,
             MySQLiteHelper.COLUMN_TRIP_NAME, MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE };
 
-    private String[] allColumnsPeopleTable = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PERSON_NAME};
+    private String[] allColumnsPeopleTable = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PERSON_NAME,
+            MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE};
 
     public TablesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -60,6 +61,8 @@ public class TablesDataSource {
         for (Person newPerson : people) {
             values2.put(MySQLiteHelper.COLUMN_ID, id);
             values2.put(MySQLiteHelper.COLUMN_PERSON_NAME, newPerson.getName());
+            values2.put(MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, newPerson.getLatitude());
+            values2.put(MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE, newPerson.getLongitude());
             database.insert(MySQLiteHelper.TABLE_PEOPLE, null, values2);
 
 
@@ -76,7 +79,34 @@ public class TablesDataSource {
         return newTrip;
     }
 
+    public void updatePersonLocation(long tripId, String latitude, String longitude){
 
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, latitude);
+        values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE, longitude);
+        database.update(MySQLiteHelper.TABLE_PEOPLE, values, MySQLiteHelper.COLUMN_ID+"= "+tripId, null );
+
+
+    }
+
+    public Trip getTrip(long tripId){
+
+        Cursor cursor1 = database.query(MySQLiteHelper.TABLE_TRIPS,
+                allColumnsTripTable, MySQLiteHelper.COLUMN_ID + " = " + tripId, null,
+                null, null, null);
+        cursor1.moveToFirst();
+
+        Cursor cursor2 = database.query(MySQLiteHelper.TABLE_PEOPLE,
+                allColumnsPeopleTable, MySQLiteHelper.COLUMN_ID + "=" + tripId, null,
+                null, null, null);
+        cursor2.moveToFirst();
+
+        Trip newTrip = cursorToTrip(cursor1, cursor2);
+        cursor1.close();
+        cursor2.close();
+        return newTrip;
+
+    }
     public void deleteTRip(Trip trip) {
         long tripId = trip.getId();
         System.out.println("Trip deleted with id: " + tripId);
@@ -95,7 +125,7 @@ public class TablesDataSource {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LATTITUDE, latitude);
         values.put(MySQLiteHelper.COLUMN_TRIP_LOC_LONGITUDE, longitude);
-        database.update(MySQLiteHelper.TABLE_TRIPS, values, MySQLiteHelper.COLUMN_ID+"= "+tripId, null );
+        database.update(MySQLiteHelper.TABLE_TRIPS, values, MySQLiteHelper.COLUMN_ID + "= " + tripId, null);
     }
 
     public List<Trip> getAllTrips() {
@@ -139,6 +169,7 @@ public class TablesDataSource {
     private ArrayList<Person> cursorToPerson(long tripId, Cursor cursor){
         ArrayList<Person> arrayList = new ArrayList<Person>();
         //int tripId = cursor.getInt(0);
+        cursor.moveToFirst();
         while (!cursor.isAfterLast()){
 
             if(cursor.getInt(0) == tripId) {
@@ -153,5 +184,14 @@ public class TablesDataSource {
             }
         }
         return arrayList;
+    }
+
+    public ArrayList<Person> getAllPeople(long tripId) {
+
+        Cursor cursor2 = database.query(MySQLiteHelper.TABLE_PEOPLE,
+                allColumnsPeopleTable, null, null, null, null, null);
+
+        ArrayList<Person> allPeople = cursorToPerson(tripId, cursor2);
+        return allPeople;
     }
 }

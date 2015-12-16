@@ -230,7 +230,7 @@ public class MainActivity extends Activity {
 					}
 
 					if((System.currentTimeMillis() % TEN_SECONDS) == 0){
-						
+
 					makeTripHttpPostRequestStatus();
 
 

@@ -330,4 +330,6 @@ public class ViewTripActivity extends Activity {
 
 		new CallAPI().execute(urlstring);
 	}
+
+
 }

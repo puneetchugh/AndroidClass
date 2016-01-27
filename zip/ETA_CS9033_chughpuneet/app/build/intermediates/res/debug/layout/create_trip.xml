@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:background="@drawable/background_image">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        android:text="@string/trip_name_id"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/maroon"
+        android:background="@color/gray"
+        />
+    <EditText
+        android:id="@+id/type_name_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:hint="@string/type_name"
+        android:textColorHint="@color/white"
+        />
+
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/add_more"
+        android:textColor="@color/maroon"
+        android:textStyle="bold"
+        android:background="@color/darkgray"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:onClick="addPerson"/>
+
+    <TextView
+        android:id="@+id/print_added_name_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        />
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <TextView
+            android:id="@+id/enter_loc_id"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:text="@string/enter_area"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/maroon"
+            android:background="@color/gray"
+            />
+        <EditText
+            android:id="@+id/location_id"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:hint="@string/like_nyu_poly"
+            android:textColorHint="@color/white"
+            android:layout_toRightOf="@+id/enter_loc_id"
+            />
+
+        <TextView
+            android:id="@+id/enter_rest_type"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/enter_loc_id"
+            android:text="@string/enter_rest_type"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/maroon"
+            android:background="@color/gray"
+            />
+        <EditText
+            android:id="@+id/type_res_type"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:hint="@string/like_chinese"
+            android:textColorHint="@color/white"
+            android:layout_toRightOf="@+id/enter_rest_type"
+            android:layout_below="@+id/enter_loc_id"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/search_rest"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/maroon"
+        android:background="@color/darkgray"
+        android:onClick="searchRestaurant"
+        />
+
+
+    <TextView
+
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        android:text="@string/trip_date"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/maroon"
+        android:background="@color/gray"
+        />
+
+    <EditText
+        android:id="@+id/date_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:hint="@string/type_date"
+        android:textColorHint="@color/white"
+        />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@color/gray"
+        android:text="@string/trip_time"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/maroon"
+        />
+    <EditText
+        android:id="@+id/time_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:hint="@string/type_time"
+        android:textColorHint="@color/white"
+        />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        >
+    <Button
+        android:id="@+id/create_button_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/create"
+        android:textColor="@color/maroon"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:background="@color/gray"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+     />
+
+        <Button
+            android:id="@+id/cancel_button_id"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/cancel"
+            android:textColor="@color/maroon"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:onClick="cancelTrip"
+            android:background="@color/gray"
+            />
+     </LinearLayout>
+
+</LinearLayout><!-- From: file:/home/puneet/androidBickford/ETA_CS9033_chughpuneet/app/src/main/res/layout/create_trip.xml -->

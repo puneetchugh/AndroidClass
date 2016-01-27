@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ETA</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="create_trip">Create A Trip</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="include_people">Include People</string>
+    <string name="people_on_trip">People Going on Trip</string>
+    <string name="trip_name_id">Name Your Trip</string>
+    <string name="type_name_id">Type trip name</string>
+    <string name="view_date_id">Date</string>
+    <string name="view_time_id">Time</string>
+    <string name="view_location_id">Trip Location</string>
+    <string name="your_trip_name_id">Trip Name</string>
+    <string name="type_name">Type Name</string>
+
+    <string name="like_nyu_poly">Like: nyu poly, etc</string>
+    <string name="like_chinese">Like:Chinese</string>
+    <string name="add_more">Click to Add People from contact-book</string>
+    <string name="type_rest_cat">Type Restaurant Category</string>
+    <string name="enter_area">Enter Location</string>
+    <string name="enter_rest_type">Enter Rest. Type</string>
+    <string name="search_rest">Click To Search Restaurant</string>
+    <string name="view_trip">View Trip</string>
+    <string name="trip_date">Trip Date</string>
+    <string name="trip_time">Trip Time</string>
+    <string name="type_date">yyyy-MM-dd</string>
+    <string name="trip_location">Trip Location</string>>
+    <string name="type_time">HH:MM</string>
+    <string name="type_location">Type Location</string>
+    <string name="puneet">Puneet</string>
+    <string name="hannah">Hannah</string>
+    <string name="pranay">Pranay</string>
+    <string name="chenxi">Chenxi</string>
+    <string name="sheryar">Sheryar</string>
+    <string name="title_activity_search_eating_outlets">SearchEatingOutlets</string>
+    <string name="delete_trip">Delete All Trips</string>
+
+</resources>
